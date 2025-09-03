@@ -1,0 +1,51 @@
+<section id="testimonials" class="testimonials">
+  <div class="container">
+    <div class="section-header">
+      <h2>Ce Que Disent Nos Clients</h2>
+      <p>La satisfaction de nos clients est notre plus belle récompense</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
+        <div class="testimonial-header">
+          <div class="testimonial-info">
+            <h4>{{ testimonial.name }}</h4>
+            <span class="location">{{ testimonial.location }}</span>
+            <span class="service-type">{{ testimonial.service }}</span>
+          </div>
+          <div class="rating">
+            <i class="fas fa-star" *ngFor="let star of getStarArray(testimonial.rating)"></i>
+          </div>
+        </div>
+        <div class="testimonial-content">
+          <p>{{ testimonial.comment }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="testimonials-summary">
+      <div class="summary-stats">
+        <div class="stat">
+          <div class="stat-number">5.0/5</div>
+          <div class="stat-label">Note moyenne</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">32</div>
+          <div class="stat-label">Avis Google</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Recommandent</div>
+        </div>
+      </div>
+      <div class="summary-cta">
+        <h3>Rejoignez nos clients satisfaits</h3>
+        <p>Découvrez pourquoi tant de personnes nous font confiance pour leur déménagement</p>
+        <a href="#contact" class="btn-primary">
+          <i class="fas fa-star"></i>
+          Demander un devis
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,29 @@
+[build]
+  # Dossier de build à publier
+  publish = "frontend/dist/demenagement-site"
+  
+  # Commande de build
+  command = "cd frontend && npm install && ng build --configuration=production"
+
+[build.environment]
+  # Version de Node.js à utiliser
+  NODE_VERSION = "18"
+
+# Configuration des redirections pour SPA Angular
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Configuration des fonctions serverless
+[functions]
+  directory = "netlify/functions"
+
+# Configuration des headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

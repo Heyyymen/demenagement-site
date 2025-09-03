@@ -1,0 +1,90 @@
+<section id="about" class="about">
+  <div class="container">
+    <div class="about-content">
+      <div class="about-text">
+        <div class="section-header">
+          <h2>À Propos de Nous</h2>
+          <p class="subtitle">Une entreprise familiale au service de vos déménagements depuis plus de 20 ans</p>
+        </div>
+        
+        <div class="about-story">
+          <p>
+            Fondée par notre père en 2003, <strong>REFLEX DÉMÉNAGEMENT</strong> est une entreprise familiale qui a su 
+            grandir tout en gardant ses valeurs humaines. Nous comprenons que déménager est souvent une étape 
+            importante de la vie, c'est pourquoi nous mettons tout en œuvre pour que cette transition se passe 
+            en toute sérénité.
+          </p>
+          
+          <p>
+            Notre équipe d'experts qualifiés utilise des techniques et du matériel de pointe pour garantir 
+            la sécurité de vos biens. De l'emballage au transport, en passant par le stockage, nous prenons 
+            soin de chaque détail pour vous offrir un service irréprochable.
+          </p>
+          
+          <div class="certifications">
+            <h4>Nos Certifications</h4>
+            <div class="cert-list">
+              <div class="cert-item">
+                <i class="fas fa-certificate"></i>
+                <span>Certification ISO 9001</span>
+              </div>
+              <div class="cert-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Assurance tous risques</span>
+              </div>
+              <div class="cert-item">
+                <i class="fas fa-truck"></i>
+                <span>Flotte moderne et écologique</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="about-image">
+        <div class="image-placeholder">
+          <i class="fas fa-users"></i>
+          <p>Notre équipe professionnelle</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="values-section">
+      <h3>Nos Valeurs</h3>
+      <div class="values-grid">
+        <div class="value-card" *ngFor="let value of values">
+          <div class="value-icon">
+            <i [class]="value.icon"></i>
+          </div>
+          <h4>{{ value.title }}</h4>
+          <p>{{ value.description }}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="team-section">
+      <div class="team-content">
+        <h3>Une Équipe à Votre Écoute</h3>
+        <p>
+          Chaque membre de notre équipe est formé aux meilleures pratiques du déménagement. 
+          Nous investissons constamment dans la formation de nos équipes pour vous garantir 
+          un service de qualité supérieure.
+        </p>
+        <div class="team-highlights">
+          <div class="highlight">
+            <i class="fas fa-graduation-cap"></i>
+            <span>Formation continue</span>
+          </div>
+          <div class="highlight">
+            <i class="fas fa-tools"></i>
+            <span>Matériel professionnel</span>
+          </div>
+          <div class="highlight">
+            <i class="fas fa-clock"></i>
+            <span>Disponibilité 7j/7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

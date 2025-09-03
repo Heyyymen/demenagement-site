@@ -1,0 +1,185 @@
+<section id="contact" class="contact">
+  <div class="container">
+    <div class="section-header">
+      <h2>Demandez Votre Devis Gratuit</h2>
+      <p>Contactez-nous pour obtenir une estimation personnalisée de votre déménagement</p>
+    </div>
+
+    <div class="contact-content">
+      <div class="contact-info">
+        <h3>Nos Coordonnées</h3>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-details">
+            <h4>Adresse</h4>
+            <p>3 rue Louise Michel<br>93400 Saint-Ouen, France</p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="contact-details">
+            <h4>Téléphone</h4>
+            <p><a href="tel:+33170240860">01 70 24 08 60</a></p>
+            <span class="availability">Disponible 7j/7 de 8h à 20h</span>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-details">
+            <h4>Email</h4>
+            <p><a href="mailto:reflexdemenagement@gmail.com">reflexdemenagement@gmail.com</a></p>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="contact-details">
+            <h4>Urgences</h4>
+            <p><a href="tel:+33170240860">01 70 24 08 60</a></p>
+            <span class="availability">Service d'urgence 24h/24</span>
+          </div>
+        </div>
+
+        <div class="guarantees">
+          <h4>Nos Garanties</h4>
+          <ul>
+            <li><i class="fas fa-check"></i> Devis gratuit et sans engagement</li>
+            <li><i class="fas fa-check"></i> Réponse sous 24h</li>
+            <li><i class="fas fa-check"></i> Prix transparent</li>
+            <li><i class="fas fa-check"></i> Assurance tous risques incluse</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <!-- Messages de succès et d'erreur -->
+        <div class="alert alert-success" *ngIf="submitMessage">
+          <i class="fas fa-check-circle"></i>
+          {{ submitMessage }}
+          <br *ngIf="showGmailButton">
+          <div *ngIf="showGmailButton" class="gmail-actions">
+            <a [href]="gmailWebLink" target="_blank" rel="noopener">
+              <button class="gmail-button primary" type="button">
+                🌐 Envoyer via Gmail (Navigateur)
+              </button>
+            </a>
+            <a [href]="gmailLink" target="_blank">
+              <button class="gmail-button secondary" type="button">
+                📱 Envoyer via Application Gmail
+              </button>
+            </a>
+          </div>
+          <br *ngIf="showGmailButton">
+          <small *ngIf="showGmailButton" class="gmail-help">
+            <strong>Envoyez votre demande directement à reflexdemenagement@gmail.com</strong>
+          </small>
+        </div>
+        
+        <div class="alert alert-error" *ngIf="submitError">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ submitError }}
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nom">Nom complet *</label>
+              <input type="text" id="nom" formControlName="nom" [class.error]="isFieldInvalid('nom')"
+                placeholder="Votre nom et prénom">
+              <span class="error-message" *ngIf="isFieldInvalid('nom')">
+                {{ getFieldError('nom') }}
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" formControlName="email" [class.error]="isFieldInvalid('email')"
+                placeholder="votre.email@exemple.com">
+              <span class="error-message" *ngIf="isFieldInvalid('email')">
+                {{ getFieldError('email') }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="telephone">Téléphone *</label>
+              <input type="tel" id="telephone" formControlName="telephone" [class.error]="isFieldInvalid('telephone')"
+                placeholder="01 70 24 08 60">
+              <span class="error-message" *ngIf="isFieldInvalid('telephone')">
+                {{ getFieldError('telephone') }}
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="typeService">Type de service *</label>
+              <select id="typeService" formControlName="typeService" [class.error]="isFieldInvalid('typeService')">
+                <option value="">Sélectionnez un service</option>
+                <option value="residentiel">Déménagement résidentiel</option>
+                <option value="professionnel">Déménagement professionnel</option>
+                <option value="international">Déménagement international</option>
+                <option value="garde-meuble">Garde-meuble</option>
+                <option value="express">Déménagement express</option>
+                <option value="autre">Autre service</option>
+              </select>
+              <span class="error-message" *ngIf="isFieldInvalid('typeService')">
+                {{ getFieldError('typeService') }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="datePrevisionnelle">Date prévisionnelle</label>
+            <input type="date" id="datePrevisionnelle" formControlName="datePrevisionnelle">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="adresseDepart">Adresse de départ *</label>
+              <input type="text" id="adresseDepart" formControlName="adresseDepart"
+                [class.error]="isFieldInvalid('adresseDepart')" placeholder="Adresse complète de départ">
+              <span class="error-message" *ngIf="isFieldInvalid('adresseDepart')">
+                {{ getFieldError('adresseDepart') }}
+              </span>
+            </div>
+
+            <div class="form-group">
+              <label for="adresseArrivee">Adresse d'arrivée *</label>
+              <input type="text" id="adresseArrivee" formControlName="adresseArrivee"
+                [class.error]="isFieldInvalid('adresseArrivee')" placeholder="Adresse complète d'arrivée">
+              <span class="error-message" *ngIf="isFieldInvalid('adresseArrivee')">
+                {{ getFieldError('adresseArrivee') }}
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" formControlName="message" [class.error]="isFieldInvalid('message')" rows="5"
+              placeholder="Décrivez votre projet de déménagement (volume, spécificités, étage, ascenseur, etc.)"></textarea>
+            <span class="error-message" *ngIf="isFieldInvalid('message')">
+              {{ getFieldError('message') }}
+            </span>
+          </div>
+
+          <button type="submit" class="btn-submit" [disabled]="isSubmitted">
+            <i class="fas fa-paper-plane" *ngIf="!isSubmitted"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isSubmitted"></i>
+            {{ isSubmitted ? 'Envoi en cours...' : 'Envoyer ma demande' }}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

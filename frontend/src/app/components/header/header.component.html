@@ -1,0 +1,29 @@
+<header class="header">
+  <div class="container">
+    <div class="nav-brand">
+      <img src="assets/logo.webp" alt="REFLEX DÉMÉNAGEMENT - La passion du service" class="logo">
+    </div>
+
+    <nav class="nav-menu" [class.active]="isMenuOpen">
+      <ul>
+        <li><a href="#accueil" (click)="scrollToSection('hero')">Accueil</a></li>
+        <li><a href="#services" (click)="scrollToSection('services')">Services</a></li>
+        <li><a href="#apropos" (click)="scrollToSection('about')">À propos</a></li>
+        <li><a href="#temoignages" (click)="scrollToSection('testimonials')">Témoignages</a></li>
+        <li><a href="#contact" (click)="scrollToSection('contact')">Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-contact">
+      <a href="tel:+33170240860" class="phone-btn">
+        <i class="fas fa-phone"></i> 01 70 24 08 60
+      </a>
+    </div>
+
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
