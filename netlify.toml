@@ -3,7 +3,7 @@
   publish = "frontend/dist/demenagement-site"
   
   # Commande de build
-  command = "cd frontend && npm install && ng build --configuration=production"
+  command = "cd frontend && npm install && npx ng build --configuration=production"
 
 [build.environment]
   # Version de Node.js à utiliser
