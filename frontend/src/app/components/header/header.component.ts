@@ -12,7 +12,8 @@ export class HeaderComponent {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  scrollToSection(sectionId: string) {
+  scrollToSection(sectionId: string, event: Event) {
+    event.preventDefault();
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });

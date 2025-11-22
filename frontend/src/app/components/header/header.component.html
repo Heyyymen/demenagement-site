@@ -6,11 +6,11 @@
 
     <nav class="nav-menu" [class.active]="isMenuOpen">
       <ul>
-        <li><a href="#accueil" (click)="scrollToSection('hero')">Accueil</a></li>
-        <li><a href="#services" (click)="scrollToSection('services')">Services</a></li>
-        <li><a href="#apropos" (click)="scrollToSection('about')">À propos</a></li>
-        <li><a href="#temoignages" (click)="scrollToSection('testimonials')">Témoignages</a></li>
-        <li><a href="#contact" (click)="scrollToSection('contact')">Contact</a></li>
+        <li><a href="#hero" (click)="scrollToSection('hero', $event)">Accueil</a></li>
+        <li><a href="#services" (click)="scrollToSection('services', $event)">Services</a></li>
+        <li><a href="#apropos" (click)="scrollToSection('about', $event)">À propos</a></li>
+        <li><a href="#temoignages" (click)="scrollToSection('testimonials', $event)">Témoignages</a></li>
+        <li><a href="#contact" (click)="scrollToSection('contact', $event)">Contact</a></li>
       </ul>
     </nav>
 
