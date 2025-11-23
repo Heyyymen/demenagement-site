@@ -10,6 +10,7 @@ import { DevisService, DevisRequest } from '../../services/devis.service';
 export class ContactComponent {
   contactForm: FormGroup;
   isSubmitted = false;
+  isSubmitting = false;
   submitMessage = '';
   submitError = '';
   gmailLink = '';
@@ -21,11 +22,12 @@ export class ContactComponent {
     private readonly devisService: DevisService
   ) {
     this.contactForm = this.fb.group({
-      nom: ['', [Validators.required, Validators.minLength(2)]],
+      firstName: ['', [Validators.required, Validators.minLength(2)]],
+      lastName: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
-      telephone: ['', [Validators.required, Validators.pattern(/^[0-9\s\-+()]+$/)]],
-      typeService: ['', Validators.required],
-      datePrevisionnelle: [''],
+      phone: ['', [Validators.required, Validators.pattern(/^[0-9\s\-+()]+$/)]],
+      moveType: ['', Validators.required],
+      moveDate: [''],
       adresseDepart: ['', Validators.required],
       adresseArrivee: ['', Validators.required],
       message: ['', [Validators.required, Validators.minLength(10)]]
@@ -34,12 +36,26 @@ export class ContactComponent {
 
   onSubmit() {
     if (this.contactForm.valid) {
-      this.isSubmitted = true;
+      this.isSubmitting = true;
       this.submitMessage = '';
       this.submitError = '';
       this.showGmailButton = false;
 
-      const devisData: DevisRequest = this.contactForm.value;
+      // Map new form structure to API expected structure if needed, 
+      // or just send as is if the backend supports it. 
+      // For now assuming backend can handle or we map it.
+      // Let's map it to the old structure to be safe for the service/backend
+      const formValue = this.contactForm.value;
+      const devisData: DevisRequest = {
+        nom: `${formValue.firstName} ${formValue.lastName}`,
+        email: formValue.email,
+        telephone: formValue.phone,
+        typeService: formValue.moveType,
+        datePrevisionnelle: formValue.moveDate,
+        adresseDepart: formValue.adresseDepart,
+        adresseArrivee: formValue.adresseArrivee,
+        message: formValue.message
+      };
 
       this.devisService.envoyerDevis(devisData).subscribe({
         next: (response) => {
@@ -55,7 +71,8 @@ export class ContactComponent {
           } else {
             this.submitError = response.message || 'Une erreur est survenue lors de l\'envoi.';
           }
-          this.isSubmitted = false;
+          this.isSubmitting = false;
+          this.isSubmitted = true;
         },
         error: (error) => {
           console.error('Erreur lors de l\'envoi:', error);
@@ -64,7 +81,8 @@ export class ContactComponent {
           } else {
             this.submitError = error.error?.message || 'Une erreur est survenue lors de l\'envoi. Veuillez réessayer.';
           }
-          this.isSubmitted = false;
+          this.isSubmitting = false;
+          this.isSubmitted = true;
         }
       });
     } else {

@@ -1,5 +1,17 @@
 .header {
   background: #fff;
+
+  &.dark-mode {
+    // We will add this class via host binding or just rely on global dark mode if we use tailwind classes in HTML
+    background: #111827; // gray-900
+  }
+
+  // Better approach: use Tailwind @apply or just standard CSS var
+  :host-context(.dark) & {
+    background: #111827;
+    border-bottom: 1px solid #374151;
+  }
+
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
@@ -14,16 +26,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 80px;
+    height: 100px;
   }
 
   .nav-brand {
-    .logo {
-      height: 80px;
-      width: auto;
-      max-width: 400px;
-      object-fit: contain;
-    }
+    /* Styles handled by Tailwind classes in HTML */
   }
 
   .nav-menu {
@@ -37,7 +44,7 @@
       li {
         a {
           text-decoration: none;
-          color: #374151;
+          // color: #374151; // Removed to let Tailwind handle colors
           font-weight: 500;
           padding: 0.5rem 1rem;
           border-radius: 8px;
@@ -45,7 +52,7 @@
 
           &:hover {
             background: #f3f4f6;
-            color: #dc2626;
+            // color: #dc2626; // Removed to let Tailwind handle colors
           }
         }
       }
@@ -126,6 +133,10 @@
       transition: 0.3s;
       padding: 2rem;
 
+      :host-context(.dark) & {
+        background: #111827; // gray-900
+      }
+
       &.active {
         left: 0;
       }
@@ -139,6 +150,11 @@
           padding: 1rem;
           text-align: center;
           border-bottom: 1px solid #e5e7eb;
+
+          :host-context(.dark) & {
+            border-bottom: 1px solid #374151;
+            color: #f3f4f6;
+          }
         }
       }
     }
@@ -149,6 +165,12 @@
 
     .menu-toggle {
       display: flex;
+
+      span {
+        :host-context(.dark) & {
+          background: #f3f4f6;
+        }
+      }
     }
   }
 }

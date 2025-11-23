@@ -1,12 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./src/**/*.{html,ts}",
   ],
   theme: {
     extend: {
       colors: {
-        'reflex-dark': '#1A1A1A',
+        'reflex-dark': '#0f172a', // Slate 900 - Premium Dark
+        'reflex-dark-card': '#1e293b', // Slate 800 - Card Background
         'reflex-orange': '#E65100',
         'reflex-cream': '#F5F5F0',
       },

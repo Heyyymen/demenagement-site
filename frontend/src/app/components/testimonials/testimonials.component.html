@@ -1,51 +1,43 @@
-<section id="testimonials" class="testimonials">
-  <div class="container">
-    <div class="section-header">
-      <h2>Ce Que Disent Nos Clients</h2>
-      <p>La satisfaction de nos clients est notre plus belle récompense</p>
+<section id="testimonials" class="testimonials py-20 bg-white dark:bg-reflex-dark transition-colors duration-300">
+  <div class="container mx-auto px-4">
+    <div class="section-header text-center mb-16">
+      <h2 class="text-4xl font-display font-bold text-reflex-dark dark:text-white mb-4">Ce que disent nos clients</h2>
+      <p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">La satisfaction de nos clients est notre
+        plus belle récompense</p>
     </div>
 
-    <div class="testimonials-grid">
-      <div class="testimonial-card" *ngFor="let testimonial of testimonials">
-        <div class="testimonial-header">
-          <div class="testimonial-info">
-            <h4>{{ testimonial.name }}</h4>
-            <span class="location">{{ testimonial.location }}</span>
-            <span class="service-type">{{ testimonial.service }}</span>
-          </div>
-          <div class="rating">
-            <i class="fas fa-star" *ngFor="let star of getStarArray(testimonial.rating)"></i>
-          </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        class="testimonial-card bg-reflex-cream/50 dark:bg-reflex-dark-card p-8 rounded-2xl relative border border-transparent dark:border-gray-700 hover:-translate-y-2 transition-transform duration-300"
+        *ngFor="let testimonial of testimonials">
+        <div class="quote-icon absolute top-6 right-8 text-6xl text-reflex-orange/10 font-serif">"</div>
+
+        <div class="flex items-center gap-1 text-yellow-400 mb-6">
+          <i class="fas fa-star" *ngFor="let star of [1,2,3,4,5]"></i>
         </div>
-        <div class="testimonial-content">
-          <p>{{ testimonial.comment }}</p>
+
+        <p class="text-gray-600 dark:text-gray-300 mb-8 italic relative z-10 leading-relaxed">{{ testimonial.text }}</p>
+
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 font-bold text-lg">
+            {{ testimonial.author.charAt(0) }}
+          </div>
+          <div>
+            <h4 class="font-bold text-reflex-dark dark:text-white">{{ testimonial.author }}</h4>
+            <p class="text-sm text-gray-500 dark:text-gray-400">{{ testimonial.location }}</p>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="testimonials-summary">
-      <div class="summary-stats">
-        <div class="stat">
-          <div class="stat-number">5.0/5</div>
-          <div class="stat-label">Note moyenne</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">32</div>
-          <div class="stat-label">Avis Google</div>
-        </div>
-        <div class="stat">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Recommandent</div>
-        </div>
-      </div>
-      <div class="summary-cta">
-        <h3>Rejoignez nos clients satisfaits</h3>
-        <p>Découvrez pourquoi tant de personnes nous font confiance pour leur déménagement</p>
-        <a href="#contact" class="btn-primary">
-          <i class="fas fa-star"></i>
-          Demander un devis
-        </a>
-      </div>
+    <div class="mt-16 text-center">
+      <a href="https://g.page/r/..." target="_blank"
+        class="inline-flex items-center gap-2 text-reflex-dark dark:text-white font-medium hover:text-reflex-orange dark:hover:text-reflex-orange transition-colors">
+        <i class="fab fa-google text-reflex-orange"></i>
+        Voir tous nos avis sur Google
+        <i class="fas fa-arrow-right text-sm"></i>
+      </a>
     </div>
   </div>
 </section>

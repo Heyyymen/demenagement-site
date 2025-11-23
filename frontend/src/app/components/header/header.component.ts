@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,16 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
   isMenuOpen = false;
+  isDarkMode$ = this.themeService.isDarkMode$;
+
+  constructor(private themeService: ThemeService) { }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
   }
 
   scrollToSection(sectionId: string, event: Event) {

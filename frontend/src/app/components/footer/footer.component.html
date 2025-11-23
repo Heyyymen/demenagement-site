@@ -1,118 +1,91 @@
-<footer class="footer">
-  <div class="footer-content">
-    <div class="container">
-      <div class="footer-sections">
-        <div class="footer-section">
-          <div class="company-info">
-            <h3><i class="fas fa-truck"></i> REFLEX DÉMÉNAGEMENT</h3>
-            <p>
-              Votre partenaire de confiance pour tous vos projets de déménagement. 
-              Une entreprise familiale qui allie tradition et modernité depuis plus de 20 ans.
-            </p>
-            <div class="certifications">
-              <div class="cert-badge">
-                <i class="fas fa-certificate"></i>
-                <span>ISO 9001</span>
-              </div>
-              <div class="cert-badge">
-                <i class="fas fa-shield-alt"></i>
-                <span>Assurance Pro</span>
-              </div>
-            </div>
-          </div>
+<footer class="bg-reflex-dark dark:bg-reflex-dark text-white pt-20 pb-10 transition-colors duration-300">
+  <div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+
+      <!-- Brand Column -->
+      <div class="footer-brand">
+        <div class="flex items-center gap-3 mb-6">
+          <img src="assets/logo.webp" alt="REFLEX DÉMÉNAGEMENT"
+            class="h-12 w-auto dark:invert dark:grayscale dark:mix-blend-screen">
         </div>
-        
-        <div class="footer-section">
-          <h4>Services</h4>
-          <ul>
-            <li><a href="#services">Déménagement résidentiel</a></li>
-            <li><a href="#services">Déménagement professionnel</a></li>
-            <li><a href="#services">Déménagement international</a></li>
-            <li><a href="#services">Garde-meuble</a></li>
-            <li><a href="#services">Services complémentaires</a></li>
-            <li><a href="#services">Déménagement express</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Zones d'intervention</h4>
-          <ul>
-            <li>Paris et Île-de-France</li>
-            <li>Région parisienne</li>
-            <li>France métropolitaine</li>
-            <li>Europe</li>
-            <li>International</li>
-          </ul>
-        </div>
-        
-        <div class="footer-section">
-          <h4>Contact</h4>
-          <div class="contact-info">
-            <div class="contact-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <span>3 rue Louise Michel<br>75011 Paris</span>
-            </div>
-            <div class="contact-item">
-              <i class="fas fa-phone"></i>
-              <a href="tel:+33123456789">01 70 24 08 60</a>
-            </div>
-            <div class="contact-item">
-              <i class="fas fa-envelope"></i>
-              <a href="mailto:reflexdemenagement@gmail.com">reflexdemenagement@gmail.com</a>
-            </div>
-            <div class="contact-item">
-              <i class="fas fa-clock"></i>
-              <span>Lun-Dim: 8h-20h</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="footer-cta">
-        <div class="cta-content">
-          <h3>Prêt pour votre déménagement ?</h3>
-          <p>Obtenez votre devis gratuit en quelques clics</p>
-          <div class="cta-buttons">
-            <a href="tel:+33123456789" class="btn-phone">
-              <i class="fas fa-phone"></i>
-              Appelez-nous
-            </a>
-            <a href="#contact" class="btn-quote" (click)="scrollToSection('contact')">
-              <i class="fas fa-calculator"></i>
-              Devis gratuit
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="footer-bottom">
-    <div class="container">
-      <div class="footer-bottom-content">
-        <div class="copyright">
-          <p>&copy; {{ currentYear }} REFLEX DÉMÉNAGEMENT. Tous droits réservés.</p>
-        </div>
-        <div class="legal-links">
-          <a href="#mentions">Mentions légales</a>
-          <a href="#confidentialite">Politique de confidentialité</a>
-          <a href="#cookies">Cookies</a>
-          <a href="#cgv">CGV</a>
-        </div>
-        <div class="social-links">
-          <a href="#facebook" aria-label="Facebook">
+        <p class="text-gray-400 mb-6 leading-relaxed">
+          Votre partenaire de confiance pour tous vos déménagements en Île-de-France et partout en France.
+          Qualité, sécurité et sérénité garanties.
+        </p>
+        <div class="social-links flex gap-4">
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
             <i class="fab fa-facebook-f"></i>
           </a>
-          <a href="#instagram" aria-label="Instagram">
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="#linkedin" aria-label="LinkedIn">
+          <a href="#"
+            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
             <i class="fab fa-linkedin-in"></i>
           </a>
-          <a href="#google" aria-label="Google My Business">
-            <i class="fab fa-google"></i>
-          </a>
         </div>
+      </div>
+
+      <!-- Links Column -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">Navigation</h4>
+        <ul class="space-y-3">
+          <li><a href="#hero" class="text-gray-400 hover:text-reflex-orange transition-colors">Accueil</a></li>
+          <li><a href="#services" class="text-gray-400 hover:text-reflex-orange transition-colors">Nos Services</a></li>
+          <li><a href="#about" class="text-gray-400 hover:text-reflex-orange transition-colors">À Propos</a></li>
+          <li><a href="#testimonials" class="text-gray-400 hover:text-reflex-orange transition-colors">Témoignages</a>
+          </li>
+          <li><a href="#contact" class="text-gray-400 hover:text-reflex-orange transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Services Column -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">Nos Services</h4>
+        <ul class="space-y-3">
+          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Déménagement Particulier</a>
+          </li>
+          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Déménagement Entreprise</a>
+          </li>
+          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Garde-Meubles</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Monte-Meubles</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Emballage & Cartons</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Column -->
+      <div>
+        <h4 class="text-lg font-bold mb-6">Contact</h4>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <i class="fas fa-map-marker-alt text-reflex-orange mt-1"></i>
+            <span class="text-gray-400">Paris & Île-de-France</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <i class="fas fa-phone-alt text-reflex-orange mt-1"></i>
+            <a href="tel:+33170240860" class="text-gray-400 hover:text-white transition-colors">01 70 24 08 60</a>
+          </li>
+          <li class="flex items-start gap-3">
+            <i class="fas fa-envelope text-reflex-orange mt-1"></i>
+            <a href="mailto:contact@reflex-demenagement.com"
+              class="text-gray-400 hover:text-white transition-colors">contact@reflex-demenagement.com</a>
+          </li>
+          <li class="flex items-start gap-3">
+            <i class="fas fa-clock text-reflex-orange mt-1"></i>
+            <span class="text-gray-400">Lun - Sam: 8h00 - 20h00</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-500 text-sm">© 2023 Reflex Déménagement. Tous droits réservés.</p>
+      <div class="flex gap-6 text-sm">
+        <a href="#" class="text-gray-500 hover:text-white transition-colors">Mentions Légales</a>
+        <a href="#" class="text-gray-500 hover:text-white transition-colors">Politique de Confidentialité</a>
+        <a href="#" class="text-gray-500 hover:text-white transition-colors">CGV</a>
       </div>
     </div>
   </div>
