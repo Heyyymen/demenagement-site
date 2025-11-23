@@ -22,7 +22,6 @@ export class ServicesComponent {
         'Emballage et déballage',
         'Démontage/remontage meubles',
         'Protection des biens',
-        'Nettoyage final'
       ]
     },
     {
@@ -44,7 +43,6 @@ export class ServicesComponent {
         'Formalités douanières',
         'Emballage maritime',
         'Assurance internationale',
-        'Suivi en temps réel'
       ]
     },
     {
@@ -53,7 +51,6 @@ export class ServicesComponent {
       description: 'Solutions de stockage sécurisées pour vos biens pendant la transition.',
       features: [
         'Stockage climatisé',
-        'Surveillance 24h/24',
         'Accès flexible',
         'Inventaire détaillé'
       ]
@@ -65,7 +62,6 @@ export class ServicesComponent {
       features: [
         'Nettoyage pre/post',
         'Raccordements',
-        'Garde d\'animaux',
         'Aide administrative'
       ]
     },

@@ -25,22 +25,25 @@
       </ul>
     </nav>
 
-    <div class="nav-contact flex items-center gap-4">
+    <div class="flex items-center gap-4">
       <button (click)="toggleTheme()"
         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         aria-label="Toggle Dark Mode">
         <i class="fas fa-moon text-gray-600 dark:text-yellow-400" *ngIf="!(isDarkMode$ | async)"></i>
         <i class="fas fa-sun text-yellow-500" *ngIf="(isDarkMode$ | async)"></i>
       </button>
-      <a href="tel:+33170240860" class="phone-btn">
-        <i class="fas fa-phone"></i> 01 70 24 08 60
-      </a>
-    </div>
 
-    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+      <div class="nav-contact flex items-center gap-4 hidden md:flex">
+        <a href="tel:+33170240860" class="phone-btn">
+          <i class="fas fa-phone"></i> 01 70 24 08 60
+        </a>
+      </div>
+
+      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
 </header>

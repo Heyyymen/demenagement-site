@@ -34,8 +34,8 @@
             <div>
               <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h4>
               <p class="text-gray-600 dark:text-gray-400 mb-1">Pour toute demande écrite</p>
-              <a href="mailto:contact@reflex-demenagement.com"
-                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors">contact@reflex-demenagement.com</a>
+              <a href="mailto:reflexdemenagement@gmail.com"
+                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors">reflexdemenagement@gmail.com</a>
             </div>
           </div>
 
@@ -46,8 +46,7 @@
             </div>
             <div>
               <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h4>
-              <p class="text-gray-600 dark:text-gray-400">Toute l'Île-de-France et déménagements nationaux au départ de
-                Paris.</p>
+              <p class="text-gray-600 dark:text-gray-400">Toute l'Île-de-France et déménagements nationaux.</p>
             </div>
           </div>
         </div>
@@ -107,7 +106,7 @@
             <div class="form-group">
               <label for="moveDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date
                 souhaitée</label>
-              <input type="date" id="moveDate" formControlName="moveDate"
+              <input type="date" id="moveDate" formControlName="moveDate" [min]="minDate"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none">
             </div>
             <div class="form-group">
