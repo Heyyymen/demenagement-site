@@ -22,7 +22,7 @@ RUN rm -rf /usr/share/nginx/html/*
 
 # Copy built artifacts from builder stage
 # Note: Path depends on angular.json outputPath. Based on previous reads, it is dist/demenagement-site/browser
-COPY --from=builder /app/dist/demenagement-site/browser /usr/share/nginx/html
+COPY --from=builder /app/dist/demenagement-site /usr/share/nginx/html
 
 EXPOSE 80
 
