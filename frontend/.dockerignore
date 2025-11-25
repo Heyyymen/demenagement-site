@@ -5,5 +5,4 @@ dist
 .vscode
 .angular
 Dockerfile
-nginx.conf
 README.md
