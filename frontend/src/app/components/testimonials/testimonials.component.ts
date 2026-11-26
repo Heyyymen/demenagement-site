@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface Testimonial {
   author: string;
@@ -12,6 +12,7 @@ interface Testimonial {
     selector: 'app-testimonials',
     templateUrl: './testimonials.component.html',
     styleUrls: ['./testimonials.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TestimonialsComponent {

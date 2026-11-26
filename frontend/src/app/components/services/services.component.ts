@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface Service {
   icon: string;
@@ -11,6 +11,7 @@ interface Service {
     selector: 'app-services',
     templateUrl: './services.component.html',
     styleUrls: ['./services.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ServicesComponent {
