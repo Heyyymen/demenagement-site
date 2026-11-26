@@ -8,7 +8,7 @@
       />
     </a>
 
-    <nav class="nav-menu" [class.active]="isMenuOpen()">
+    <nav id="main-nav" class="nav-menu" aria-label="Navigation principale" [class.active]="isMenuOpen()">
       <ul class="flex gap-8">
         <li>
           <a
@@ -55,9 +55,11 @@
 
     <div class="flex items-center gap-4">
       <button
+        type="button"
         (click)="toggleTheme()"
         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        aria-label="Toggle Dark Mode"
+        [attr.aria-label]="isDarkMode() ? 'Activer le mode clair' : 'Activer le mode sombre'"
+        [attr.aria-pressed]="isDarkMode()"
       >
         @if (isDarkMode()) {
           <app-icon name="sun" class="text-yellow-500" />
@@ -70,10 +72,18 @@
         <a href="tel:+33170240860" class="phone-btn"> <app-icon name="phone" /> 01 70 24 08 60 </a>
       </div>
 
-      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen()">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button
+        type="button"
+        class="menu-toggle"
+        (click)="toggleMenu()"
+        [class.active]="isMenuOpen()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-controls="main-nav"
+        [attr.aria-label]="isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
     </div>
   </div>

@@ -8,6 +8,7 @@ import { SectionNavService } from '../../services/section-nav.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { '(document:keydown.escape)': 'closeMenu()' },
   imports: [IconComponent],
 })
 export class HeaderComponent {
@@ -18,6 +19,10 @@ export class HeaderComponent {
 
   toggleMenu(): void {
     this.isMenuOpen.update((open) => !open);
+  }
+
+  closeMenu(): void {
+    this.isMenuOpen.set(false);
   }
 
   toggleTheme(): void {
