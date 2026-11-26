@@ -9,26 +9,66 @@
       name="description"
       content="REFLEX DÉMÉNAGEMENT - Votre partenaire de confiance pour déménager en toute sérénité en Île-de-France, en France et à l'international. Devis gratuit et immédiat."
     />
+    <link rel="canonical" href="https://reflexdemenagement.fr/" />
+    <meta name="theme-color" content="#0f172a" />
 
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- Open Graph (Facebook, WhatsApp, LinkedIn…) -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.reflexdemenagement.fr/" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="REFLEX DÉMÉNAGEMENT" />
+    <meta property="og:url" content="https://reflexdemenagement.fr/" />
     <meta property="og:title" content="REFLEX DÉMÉNAGEMENT - La passion du service" />
     <meta
       property="og:description"
       content="Votre partenaire de confiance pour déménager en toute sérénité en Île-de-France, en France et à l'international. Devis gratuit et immédiat."
     />
     <meta property="og:image" content="https://reflexdemenagement.fr/assets/images/og-reflex-demenagement.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Une famille souriante entourée de cartons dans son nouveau logement" />
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://www.reflexdemenagement.fr/" />
-    <meta property="twitter:title" content="REFLEX DÉMÉNAGEMENT - La passion du service" />
+    <!-- X / Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="REFLEX DÉMÉNAGEMENT - La passion du service" />
     <meta
-      property="twitter:description"
+      name="twitter:description"
       content="Votre partenaire de confiance pour déménager en toute sérénité en Île-de-France, en France et à l'international. Devis gratuit et immédiat."
     />
-    <meta property="twitter:image" content="https://reflexdemenagement.fr/assets/images/og-reflex-demenagement.jpg" />
+    <meta name="twitter:image" content="https://reflexdemenagement.fr/assets/images/og-reflex-demenagement.jpg" />
+
+    <!-- Données structurées (schema.org) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MovingCompany",
+        "@id": "https://reflexdemenagement.fr/#entreprise",
+        "name": "REFLEX DÉMÉNAGEMENT",
+        "slogan": "La passion du service",
+        "url": "https://reflexdemenagement.fr/",
+        "logo": "https://reflexdemenagement.fr/assets/logo.webp",
+        "image": "https://reflexdemenagement.fr/assets/images/og-reflex-demenagement.jpg",
+        "telephone": "+33170240860",
+        "email": "reflexdemenagement@gmail.com",
+        "foundingDate": "2020",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Paris",
+          "addressRegion": "Île-de-France",
+          "addressCountry": "FR"
+        },
+        "areaServed": [
+          { "@type": "AdministrativeArea", "name": "Île-de-France" },
+          { "@type": "Country", "name": "France" }
+        ],
+        "openingHoursSpecification": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          "opens": "08:00",
+          "closes": "20:00"
+        },
+        "sameAs": ["https://www.instagram.com/wasryreflex/", "https://www.tiktok.com/@wasry.reflex.dmna"]
+      }
+    </script>
 
     <link
       rel="preload"
@@ -39,7 +79,9 @@
       fetchpriority="high"
     />
     <link rel="preload" href="assets/fonts/clash-display-700.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" href="favicon.ico" sizes="48x48" />
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.webmanifest" />
   </head>
   <body>
     <app-root></app-root>
