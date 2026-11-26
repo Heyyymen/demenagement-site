@@ -1,13 +1,21 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
 
 @Component({
-    selector: 'app-contact',
-    templateUrl: './contact.component.html',
-    styleUrls: ['./contact.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule, ReactiveFormsModule]
+  selector: 'app-contact',
+  templateUrl: './contact.component.html',
+  styleUrls: ['./contact.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [FormsModule, ReactiveFormsModule],
 })
 export class ContactComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -39,11 +47,11 @@ export class ContactComponent implements OnInit {
         adresseArrivee: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
         message: ['', [Validators.maxLength(500)]],
         consentement: [false, Validators.requiredTrue],
-        website: [''] // Honeypot
+        website: [''], // Honeypot
       },
       {
-        validators: [this.emailOrPhoneValidator(), this.phoneFormatValidator()]
-      }
+        validators: [this.emailOrPhoneValidator(), this.phoneFormatValidator()],
+      },
     );
 
     // Track message character count
@@ -125,7 +133,7 @@ export class ContactComponent implements OnInit {
       adresseArrivee: formValue.adresseArrivee,
       message: formValue.message || '',
       consentement: formValue.consentement,
-      website: formValue.website // Honeypot
+      website: formValue.website, // Honeypot
     };
 
     this.devisService.envoyerDevis(devisRequest).subscribe({
@@ -141,21 +149,18 @@ export class ContactComponent implements OnInit {
 
         // Afficher message d'erreur en français
         if (error.status === 422) {
-          this.submitError =
-            'Erreur de validation. Vérifiez vos informations et réessayez.';
+          this.submitError = 'Erreur de validation. Vérifiez vos informations et réessayez.';
         } else if (error.status >= 500) {
           this.submitError =
-            'Une erreur serveur s\'est produite. Veuillez contacter Reflex Déménagement au 01 70 24 08 60.';
+            "Une erreur serveur s'est produite. Veuillez contacter Reflex Déménagement au 01 70 24 08 60.";
         } else if (error.status === 0) {
-          this.submitError =
-            'Erreur de connexion. Vérifiez votre connexion Internet ou appelez au 01 70 24 08 60.';
+          this.submitError = 'Erreur de connexion. Vérifiez votre connexion Internet ou appelez au 01 70 24 08 60.';
         } else {
-          this.submitError =
-            'Une erreur est survenue. Veuillez réessayer ou appelez au 01 70 24 08 60.';
+          this.submitError = 'Une erreur est survenue. Veuillez réessayer ou appelez au 01 70 24 08 60.';
         }
 
-        console.error('Erreur lors de l\'envoi du devis:', error);
-      }
+        console.error("Erreur lors de l'envoi du devis:", error);
+      },
     });
   }
 
@@ -194,14 +199,13 @@ export class ContactComponent implements OnInit {
         break;
 
       case 'email':
-        if (errors['required']) return 'L\'email est obligatoire';
+        if (errors['required']) return "L'email est obligatoire";
         if (errors['email']) return 'Adresse email invalide';
         break;
 
       case 'telephone':
         if (errors['required']) return 'Au moins un contact (email ou téléphone) est obligatoire';
-        if (errors['invalidPhoneFormat'])
-          return 'Téléphone invalide (10 chiffres ou +33 suivi de 9 chiffres)';
+        if (errors['invalidPhoneFormat']) return 'Téléphone invalide (10 chiffres ou +33 suivi de 9 chiffres)';
         break;
 
       case 'typeService':
@@ -210,9 +214,9 @@ export class ContactComponent implements OnInit {
 
       case 'adresseDepart':
       case 'adresseArrivee':
-        if (errors['required']) return 'L\'adresse est obligatoire';
-        if (errors['minlength']) return 'L\'adresse est trop courte';
-        if (errors['maxlength']) return 'L\'adresse est trop longue';
+        if (errors['required']) return "L'adresse est obligatoire";
+        if (errors['minlength']) return "L'adresse est trop courte";
+        if (errors['maxlength']) return "L'adresse est trop longue";
         break;
 
       case 'message':

@@ -8,11 +8,19 @@ import { ContactComponent } from './components/contact/contact.component';
 import { FooterComponent } from './components/footer/footer.component';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [HeaderComponent, HeroComponent, ServicesComponent, AboutComponent, TestimonialsComponent, ContactComponent, FooterComponent]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [
+    HeaderComponent,
+    HeroComponent,
+    ServicesComponent,
+    AboutComponent,
+    TestimonialsComponent,
+    ContactComponent,
+    FooterComponent,
+  ],
 })
 export class AppComponent {
   title = 'Déménagement Pro';

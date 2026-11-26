@@ -1,53 +1,81 @@
 <header class="header">
   <div class="container">
     <div class="nav-brand flex items-center cursor-pointer" (click)="scrollToSection('hero', $event)">
-      <img src="assets/logo.webp" alt="REFLEX DÉMÉNAGEMENT"
-        class="logo h-20 w-auto object-contain transition-transform hover:scale-105 dark:invert dark:grayscale dark:mix-blend-screen">
+      <img
+        src="assets/logo.webp"
+        alt="REFLEX DÉMÉNAGEMENT"
+        class="logo h-20 w-auto object-contain transition-transform hover:scale-105 dark:invert dark:grayscale dark:mix-blend-screen"
+      />
+    </div>
+
+    <nav class="nav-menu" [class.active]="isMenuOpen">
+      <ul class="flex gap-8">
+        <li>
+          <a
+            href="#hero"
+            (click)="scrollToSection('hero', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Accueil</a
+          >
+        </li>
+        <li>
+          <a
+            href="#services"
+            (click)="scrollToSection('services', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Services</a
+          >
+        </li>
+        <li>
+          <a
+            href="#apropos"
+            (click)="scrollToSection('about', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >À propos</a
+          >
+        </li>
+        <li>
+          <a
+            href="#temoignages"
+            (click)="scrollToSection('testimonials', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Témoignages</a
+          >
+        </li>
+        <li>
+          <a
+            href="#contact"
+            (click)="scrollToSection('contact', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Contact</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-4">
+      <button
+        (click)="toggleTheme()"
+        class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+        aria-label="Toggle Dark Mode"
+      >
+        @if (!(isDarkMode$ | async)) {
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400"></i>
+        }
+        @if (isDarkMode$ | async) {
+          <i class="fas fa-sun text-yellow-500"></i>
+        }
+      </button>
+
+      <div class="nav-contact flex items-center gap-4 hidden md:flex">
+        <a href="tel:+33170240860" class="phone-btn"> <i class="fas fa-phone"></i> 01 70 24 08 60 </a>
       </div>
 
-      <nav class="nav-menu" [class.active]="isMenuOpen">
-        <ul class="flex gap-8">
-          <li><a href="#hero" (click)="scrollToSection('hero', $event)"
-          class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Accueil</a>
-        </li>
-        <li><a href="#services" (click)="scrollToSection('services', $event)"
-        class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Services</a>
-      </li>
-      <li><a href="#apropos" (click)="scrollToSection('about', $event)"
-        class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">À
-      propos</a></li>
-      <li><a href="#temoignages" (click)="scrollToSection('testimonials', $event)"
-      class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Témoignages</a>
-    </li>
-    <li><a href="#contact" (click)="scrollToSection('contact', $event)"
-    class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Contact</a>
-  </li>
-</ul>
-</nav>
-
-<div class="flex items-center gap-4">
-  <button (click)="toggleTheme()"
-    class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-    aria-label="Toggle Dark Mode">
-    @if (!(isDarkMode$ | async)) {
-      <i class="fas fa-moon text-gray-600 dark:text-yellow-400"></i>
-    }
-    @if ((isDarkMode$ | async)) {
-      <i class="fas fa-sun text-yellow-500"></i>
-    }
-  </button>
-
-  <div class="nav-contact flex items-center gap-4 hidden md:flex">
-    <a href="tel:+33170240860" class="phone-btn">
-      <i class="fas fa-phone"></i> 01 70 24 08 60
-    </a>
+      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
   </div>
-
-  <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-</div>
-</div>
 </header>

@@ -24,7 +24,7 @@ export interface DevisResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DevisService {
   private readonly http = inject(HttpClient);
@@ -34,15 +34,15 @@ export class DevisService {
   envoyerDevis(devisData: DevisRequest): Observable<DevisResponse> {
     return this.http.post<DevisResponse>(this.apiUrl, devisData).pipe(
       catchError((error) => {
-        console.error('Erreur lors de l\'envoi du devis:', error);
-        
+        console.error("Erreur lors de l'envoi du devis:", error);
+
         // Renvoyez une erreur structurée
         return throwError(() => ({
           status: error.status || 0,
           message: this.getErrorMessage(error),
-          originalError: error
+          originalError: error,
         }));
-      })
+      }),
     );
   }
 
@@ -51,7 +51,7 @@ export class DevisService {
       return 'Erreur de validation. Vérifiez vos informations.';
     }
     if (error.status >= 500) {
-      return 'Une erreur serveur s\'est produite.';
+      return "Une erreur serveur s'est produite.";
     }
     if (error.status === 0) {
       return 'Erreur de connexion.';
