@@ -12,8 +12,7 @@ interface Testimonial {
     selector: 'app-testimonials',
     templateUrl: './testimonials.component.html',
     styleUrls: ['./testimonials.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class TestimonialsComponent {
   testimonials: Testimonial[] = [

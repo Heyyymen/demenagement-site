@@ -1,12 +1,13 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [AsyncPipe]
 })
 export class HeaderComponent {
   private readonly themeService = inject(ThemeService);

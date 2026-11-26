@@ -4,8 +4,7 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
     selector: 'app-hero',
     templateUrl: './hero.component.html',
     styleUrls: ['./hero.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HeroComponent {
   scrollToContact() {

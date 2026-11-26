@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
 
 @Component({
@@ -7,7 +7,7 @@ import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.
     templateUrl: './contact.component.html',
     styleUrls: ['./contact.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule]
 })
 export class ContactComponent implements OnInit {
   contactForm!: FormGroup;
