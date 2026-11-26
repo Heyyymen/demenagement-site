@@ -10,7 +10,8 @@ export class SectionNavService {
     event?.preventDefault();
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const reduceMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      element.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
       history.replaceState(null, '', `/#${sectionId}`);
     } else {
       // Autre page (ex. mentions légales) : retour à l'accueil, puis défilement via anchorScrolling.

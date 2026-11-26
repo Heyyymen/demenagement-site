@@ -20,7 +20,7 @@ module.exports = {
       },
       animation: {
         blob: 'blob 7s infinite',
-        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+        'fade-in-up': 'fadeInUp 0.8s ease-out both',
       },
       keyframes: {
         blob: {

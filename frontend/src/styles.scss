@@ -29,13 +29,11 @@ body {
     background-color 0.3s ease,
     color 0.3s ease;
 
-  &.dark {
+  :root.dark & {
     background-color: #0f172a; // Slate 900
     color: #f8fafc; // Slate 50
   }
 }
-
-/* Styles handled by Tailwind CSS */
 
 html {
   scroll-behavior: smooth;
@@ -43,6 +41,55 @@ html {
 
 section {
   scroll-margin-top: 100px; // Adjust based on header height
+}
+
+/* Focus clavier visible (WCAG 2.4.7) — les champs de formulaire ont leur propre anneau orange */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #e65100;
+  outline-offset: 3px;
+}
+
+/* Animations d'entrée en cascade (classes utilisées dans le hero) */
+.animate-fade-in-up {
+  &.delay-100 {
+    animation-delay: 100ms;
+  }
+  &.delay-200 {
+    animation-delay: 200ms;
+  }
+  &.delay-300 {
+    animation-delay: 300ms;
+  }
+  &.delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Respect de la préférence « réduire les animations » (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* Pages légales (mentions, confidentialité) */
