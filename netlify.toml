@@ -1,13 +1,13 @@
 [build]
   # Dossier de build à publier
-  publish = "frontend/dist/demenagement-site"
+  publish = "frontend/dist/demenagement-site/browser"
   
   # Commande de build
-  command = "cd frontend && npm install && npx ng build --configuration=production"
+  command = "cd frontend && npm ci && npm run build"
 
 [build.environment]
   # Version de Node.js à utiliser
-  NODE_VERSION = "18"
+  NODE_VERSION = "24"
 
 # Configuration des redirections pour SPA Angular
 [[redirects]]
