@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
 
@@ -10,6 +10,9 @@ import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.
     imports: [FormsModule, ReactiveFormsModule]
 })
 export class ContactComponent implements OnInit {
+  private readonly fb = inject(FormBuilder);
+  private readonly devisService = inject(DevisService);
+
   contactForm!: FormGroup;
   isSubmitting = false;
   submitSuccess = false;
@@ -17,11 +20,6 @@ export class ContactComponent implements OnInit {
   minDate: string = '';
   messageCharCount = 0;
   maxMessageLength = 500;
-
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly devisService: DevisService
-  ) {}
 
   ngOnInit(): void {
     this.initializeForm();

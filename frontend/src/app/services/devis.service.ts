@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -27,9 +27,9 @@ export interface DevisResponse {
   providedIn: 'root'
 })
 export class DevisService {
-  private readonly apiUrl = `${environment.apiUrl}/devis`;
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) {}
+  private readonly apiUrl = `${environment.apiUrl}/devis`;
 
   envoyerDevis(devisData: DevisRequest): Observable<DevisResponse> {
     return this.http.post<DevisResponse>(this.apiUrl, devisData).pipe(
