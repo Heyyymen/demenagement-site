@@ -282,3 +282,17 @@ désormais vers un domaine tiers inconnu** (`bytehavenai.com`). Elle est mainten
 | Pages par service / zone | SEO local | L |
 | Barre d'appel collante sur mobile, estimateur de volume, analytics sans cookies | Conversion / mesure | S–M |
 | Tailwind 4 | Refonte de la config, sans gain visible | M |
+
+## Notes sur les CGV
+
+Pour un déménageur, les CGV encadrent le contrat conclu à partir du devis. Points habituellement couverts :
+devis écrit et gratuit préalable (obligatoire pour les déménagements de particuliers), lettre de voiture,
+déclaration de valeur et plafonds d'indemnisation, assurance, modalités de paiement et d'acompte,
+annulation / report, droit de rétractation (contrats conclus à distance ou hors établissement), obligations du
+client (accès, stationnement, objets exclus), réserves à la livraison et délai de réclamation, médiateur de la
+consommation, juridiction compétente.
+
+Recommandation : partir des **conditions générales types de la profession** (Chambre Syndicale du Déménagement /
+fédération professionnelle) et les faire valider par un juriste ou l'organisation professionnelle — ce document
+engage juridiquement l'entreprise et ne doit pas être rédigé « à l'aveugle ». Une fois le texte disponible, l'ajout
+d'une page `/cgv` et du lien en pied de page prend quelques minutes.
