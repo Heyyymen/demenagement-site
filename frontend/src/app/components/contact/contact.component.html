@@ -74,140 +74,124 @@
         </div>
       </div>
 
-      <!-- Contact Form -->
+      <!-- Formulaire de devis -->
       <div
         class="contact-form-wrapper bg-white dark:bg-reflex-dark-card p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700"
       >
         <h3 class="text-2xl font-bold text-reflex-dark dark:text-white mb-8">Demande de devis gratuit</h3>
 
-        <!-- Success Message -->
-        @if (submitSuccess) {
-          <div
-            class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl"
-          >
-            <p class="text-green-800 dark:text-green-200 font-medium flex items-center gap-2">
-              <i class="fas fa-check-circle"></i>
-              Merci ! Votre demande de devis a été bien reçue. Nous vous contacterons dans les 24h.
-            </p>
-          </div>
-        }
+        <div aria-live="polite" aria-atomic="true">
+          @if (status() === 'success') {
+            <div
+              class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl"
+            >
+              <p class="text-green-800 dark:text-green-200 font-medium flex items-center gap-2">
+                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                Merci ! Votre demande a bien été envoyée. Nous vous recontactons sous 24 h ouvrées.
+              </p>
+            </div>
+          }
+          @if (status() === 'error') {
+            <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-xl">
+              <p class="text-red-800 dark:text-red-200 font-medium">{{ errorMessage() }}</p>
+            </div>
+          }
+          @if (submitted() && form.invalid) {
+            <div class="mb-6 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
+              <p class="text-red-700 dark:text-red-300 text-sm flex items-center gap-2">
+                <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                Certains champs sont à compléter ou à corriger.
+              </p>
+            </div>
+          }
+        </div>
 
-        <!-- Error Message -->
-        @if (submitError) {
-          <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-xl">
-            <p class="text-red-800 dark:text-red-200 font-medium">{{ submitError }}</p>
-          </div>
-        }
-
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
-          <!-- Prenom et Nom -->
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6" novalidate>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
               <label for="prenom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >Prénom *</label
+                >Prénom <span aria-hidden="true">*</span></label
               >
               <input
                 type="text"
                 id="prenom"
                 formControlName="prenom"
-                [attr.aria-describedby]="isFieldError('prenom') ? 'error-prenom' : null"
+                required
+                autocomplete="given-name"
+                [attr.aria-invalid]="showError('prenom')"
+                [attr.aria-describedby]="showError('prenom') ? 'error-prenom' : null"
+                [class.border-red-500]="showError('prenom')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('prenom')"
               />
-              @if (isFieldError('prenom')) {
-                <span
-                  id="error-prenom"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('prenom') }}
-                </span>
+              @if (showError('prenom')) {
+                <p id="error-prenom" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('prenom') }}</p>
               }
             </div>
             <div class="form-group">
-              <label for="nom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom *</label>
+              <label for="nom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Nom <span aria-hidden="true">*</span></label
+              >
               <input
                 type="text"
                 id="nom"
                 formControlName="nom"
-                [attr.aria-describedby]="isFieldError('nom') ? 'error-nom' : null"
+                required
+                autocomplete="family-name"
+                [attr.aria-invalid]="showError('nom')"
+                [attr.aria-describedby]="showError('nom') ? 'error-nom' : null"
+                [class.border-red-500]="showError('nom')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('nom')"
               />
-              @if (isFieldError('nom')) {
-                <span
-                  id="error-nom"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('nom') }}
-                </span>
+              @if (showError('nom')) {
+                <p id="error-nom" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('nom') }}</p>
               }
             </div>
           </div>
 
-          <!-- Email et Telephone -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
-              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
+              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Email <span aria-hidden="true">*</span></label
+              >
               <input
                 type="email"
                 id="email"
                 formControlName="email"
-                [attr.aria-describedby]="isFieldError('email') ? 'error-email' : null"
+                required
+                autocomplete="email"
+                [attr.aria-invalid]="showError('email')"
+                [attr.aria-describedby]="showError('email') ? 'error-email' : null"
+                [class.border-red-500]="showError('email')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('email')"
               />
-              @if (isFieldError('email')) {
-                <span
-                  id="error-email"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('email') }}
-                </span>
+              @if (showError('email')) {
+                <p id="error-email" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('email') }}</p>
               }
             </div>
             <div class="form-group">
               <label for="telephone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >Téléphone</label
+                >Téléphone <span aria-hidden="true">*</span></label
               >
               <input
                 type="tel"
                 id="telephone"
                 formControlName="telephone"
-                [attr.aria-describedby]="isFieldError('telephone') ? 'error-telephone' : null"
-                placeholder="01 23 45 67 89 ou +33 1 23 45 67 89"
+                required
+                autocomplete="tel"
+                placeholder="06 12 34 56 78"
+                [attr.aria-invalid]="showError('telephone')"
+                [attr.aria-describedby]="showError('telephone') ? 'error-telephone' : null"
+                [class.border-red-500]="showError('telephone')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('telephone')"
               />
-              @if (isFieldError('telephone')) {
-                <span
-                  id="error-telephone"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('telephone') }}
-                </span>
+              @if (showError('telephone')) {
+                <p id="error-telephone" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('telephone') }}
+                </p>
               }
             </div>
           </div>
 
-          <!-- Form-level error for email OR phone -->
-          @if (hasFormError()) {
-            <div class="p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
-              <p class="text-red-700 dark:text-red-300 text-sm flex items-center gap-2">
-                <i class="fas fa-exclamation-circle"></i>
-                Au moins un contact (email ou téléphone) est obligatoire.
-              </p>
-            </div>
-          }
-
-          <!-- Date et Type de service -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
               <label for="datePrevisionnelle" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
@@ -223,175 +207,147 @@
             </div>
             <div class="form-group">
               <label for="typeService" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >Type de déménagement *</label
+                >Type de déménagement <span aria-hidden="true">*</span></label
               >
               <select
                 id="typeService"
                 formControlName="typeService"
-                [attr.aria-describedby]="isFieldError('typeService') ? 'error-typeService' : null"
+                required
+                [attr.aria-invalid]="showError('typeService')"
+                [attr.aria-describedby]="showError('typeService') ? 'error-typeService' : null"
+                [class.border-red-500]="showError('typeService')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none appearance-none"
-                [class.border-red-500]="isFieldError('typeService')"
               >
                 <option value="" disabled>Sélectionnez une option</option>
-                <option value="demenagement-particulier">Déménagement Particulier</option>
-                <option value="demenagement-entreprise">Déménagement Entreprise</option>
-                <option value="demenagement-international">Déménagement International</option>
-                <option value="garde-meuble">Garde-meuble</option>
-                <option value="services-complementaires">Services Complémentaires</option>
+                @for (service of services; track service.id) {
+                  <option [value]="service.id">{{ service.title }}</option>
+                }
               </select>
-              @if (isFieldError('typeService')) {
-                <span
-                  id="error-typeService"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('typeService') }}
-                </span>
+              @if (showError('typeService')) {
+                <p id="error-typeService" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('typeService') }}
+                </p>
               }
             </div>
           </div>
 
-          <!-- Addresses -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
               <label for="adresseDepart" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >Adresse de départ *</label
+                >Adresse de départ <span aria-hidden="true">*</span></label
               >
               <input
                 type="text"
                 id="adresseDepart"
                 formControlName="adresseDepart"
-                [attr.aria-describedby]="isFieldError('adresseDepart') ? 'error-adresseDepart' : null"
-                placeholder="Adresse complète de départ"
+                required
+                autocomplete="section-depart street-address"
+                placeholder="N°, rue, code postal, ville"
+                [attr.aria-invalid]="showError('adresseDepart')"
+                [attr.aria-describedby]="showError('adresseDepart') ? 'error-adresseDepart' : null"
+                [class.border-red-500]="showError('adresseDepart')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('adresseDepart')"
               />
-              @if (isFieldError('adresseDepart')) {
-                <span
-                  id="error-adresseDepart"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('adresseDepart') }}
-                </span>
+              @if (showError('adresseDepart')) {
+                <p id="error-adresseDepart" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('adresseDepart') }}
+                </p>
               }
             </div>
-
             <div class="form-group">
               <label for="adresseArrivee" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >Adresse d'arrivée *</label
+                >Adresse d'arrivée <span aria-hidden="true">*</span></label
               >
               <input
                 type="text"
                 id="adresseArrivee"
                 formControlName="adresseArrivee"
-                [attr.aria-describedby]="isFieldError('adresseArrivee') ? 'error-adresseArrivee' : null"
-                placeholder="Adresse complète d'arrivée"
+                required
+                autocomplete="section-arrivee street-address"
+                placeholder="N°, rue, code postal, ville"
+                [attr.aria-invalid]="showError('adresseArrivee')"
+                [attr.aria-describedby]="showError('adresseArrivee') ? 'error-adresseArrivee' : null"
+                [class.border-red-500]="showError('adresseArrivee')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldError('adresseArrivee')"
               />
-              @if (isFieldError('adresseArrivee')) {
-                <span
-                  id="error-adresseArrivee"
-                  class="error-message text-red-500 text-xs mt-1 block"
-                  role="alert"
-                  aria-live="polite"
-                >
-                  {{ getFieldError('adresseArrivee') }}
-                </span>
+              @if (showError('adresseArrivee')) {
+                <p id="error-adresseArrivee" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('adresseArrivee') }}
+                </p>
               }
             </div>
           </div>
 
-          <!-- Message -->
           <div class="form-group">
             <div class="flex justify-between items-center mb-2">
               <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >Message (optionnel)</label
               >
-              <span class="text-xs text-gray-500 dark:text-gray-400"
-                >{{ messageCharCount }}/{{ maxMessageLength }}</span
+              <span class="text-xs text-gray-600 dark:text-gray-400" aria-hidden="true"
+                >{{ messageLength() }}/{{ messageMax }}</span
               >
             </div>
             <textarea
               id="message"
               formControlName="message"
               rows="4"
-              [attr.aria-describedby]="isFieldError('message') ? 'error-message' : null"
+              [attr.maxlength]="messageMax"
+              [attr.aria-invalid]="showError('message')"
+              [attr.aria-describedby]="showError('message') ? 'error-message' : null"
+              [class.border-red-500]="showError('message')"
               class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none resize-none"
-              [class.border-red-500]="isFieldError('message')"
               placeholder="Précisez votre demande (étage, ascenseur, volume estimé...)"
             ></textarea>
-            @if (isFieldError('message')) {
-              <span
-                id="error-message"
-                class="error-message text-red-500 text-xs mt-1 block"
-                role="alert"
-                aria-live="polite"
-              >
-                {{ getFieldError('message') }}
-              </span>
+            @if (showError('message')) {
+              <p id="error-message" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('message') }}</p>
             }
           </div>
 
-          <!-- Honeypot (invisible) -->
-          <input
-            type="text"
-            formControlName="website"
-            class="hidden"
-            aria-hidden="true"
-            tabindex="-1"
-            autocomplete="off"
-          />
+          <!-- Champ piège anti-robot : invisible pour les humains -->
+          <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+            <label for="website">Ne pas remplir ce champ</label>
+            <input type="text" id="website" formControlName="website" tabindex="-1" autocomplete="off" />
+          </div>
 
-          <!-- RGPD Consent -->
           <div class="form-group">
             <div class="flex items-start gap-3">
               <input
                 type="checkbox"
                 id="consentement"
                 formControlName="consentement"
-                [attr.aria-describedby]="isFieldError('consentement') ? 'error-consentement' : null"
+                [attr.aria-invalid]="showError('consentement')"
+                [attr.aria-describedby]="showError('consentement') ? 'error-consentement' : null"
                 class="mt-1 w-5 h-5 rounded accent-reflex-orange cursor-pointer"
               />
               <label for="consentement" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                 J'accepte que mes informations soient utilisées pour répondre à ma demande de devis.
-                <a href="/politique-de-confidentialite" class="text-reflex-orange hover:underline font-medium">
-                  Lire notre politique de confidentialité
-                </a>
-                *
+                <a href="/politique-de-confidentialite" class="text-reflex-orange hover:underline font-medium"
+                  >Lire notre politique de confidentialité</a
+                >
+                <span aria-hidden="true">*</span>
               </label>
             </div>
-            @if (isFieldError('consentement')) {
-              <span
-                id="error-consentement"
-                class="error-message text-red-500 text-xs mt-1 block"
-                role="alert"
-                aria-live="polite"
-              >
-                {{ getFieldError('consentement') }}
-              </span>
+            @if (showError('consentement')) {
+              <p id="error-consentement" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                {{ errorFor('consentement') }}
+              </p>
             }
           </div>
 
-          <!-- Submit Button -->
           <button
             type="submit"
-            [disabled]="contactForm.invalid || isSubmitting"
+            [disabled]="status() === 'submitting'"
             class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
           >
-            @if (!isSubmitting) {
-              <span>Envoyer ma demande</span>
-            }
-            @if (isSubmitting) {
-              <span><i class="fas fa-spinner fa-spin"></i> Envoi en cours...</span>
+            @if (status() === 'submitting') {
+              <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Envoi en cours...
+            } @else {
+              Envoyer ma demande
             }
           </button>
         </form>
 
-        <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-6">
+        <p class="text-xs text-center text-gray-600 dark:text-gray-400 mt-6">
           Les champs marqués d'une * sont obligatoires.
         </p>
       </div>

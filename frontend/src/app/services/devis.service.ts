@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+
+/** Endpoint relatif : fonctionne en production comme avec `netlify dev` en local. */
+const DEVIS_ENDPOINT = '/.netlify/functions/devis';
 
 export interface DevisRequest {
   prenom: string;
@@ -10,12 +11,15 @@ export interface DevisRequest {
   email: string;
   telephone: string;
   typeService: string;
-  datePrevisionnelle?: string;
+  datePrevisionnelle: string;
   adresseDepart: string;
   adresseArrivee: string;
   message: string;
   consentement: boolean;
-  website?: string; // Honeypot field
+  /** Champ piège anti-robot : doit rester vide. */
+  website: string;
+  /** Temps de remplissage, en ms (anti-robot). */
+  elapsedMs: number;
 }
 
 export interface DevisResponse {
@@ -23,39 +27,31 @@ export interface DevisResponse {
   message: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+export interface DevisError {
+  status: number;
+  message: string;
+}
+
+const PHONE_HINT = 'Vous pouvez aussi nous appeler au 01 70 24 08 60.';
+
+@Injectable({ providedIn: 'root' })
 export class DevisService {
   private readonly http = inject(HttpClient);
 
-  private readonly apiUrl = `${environment.apiUrl}/devis`;
-
-  envoyerDevis(devisData: DevisRequest): Observable<DevisResponse> {
-    return this.http.post<DevisResponse>(this.apiUrl, devisData).pipe(
-      catchError((error) => {
-        console.error("Erreur lors de l'envoi du devis:", error);
-
-        // Renvoyez une erreur structurée
-        return throwError(() => ({
-          status: error.status || 0,
-          message: this.getErrorMessage(error),
-          originalError: error,
-        }));
-      }),
-    );
+  envoyerDevis(devis: DevisRequest): Observable<DevisResponse> {
+    return this.http
+      .post<DevisResponse>(DEVIS_ENDPOINT, devis)
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          throwError((): DevisError => ({ status: error.status, message: DevisService.toMessage(error.status) })),
+        ),
+      );
   }
 
-  private getErrorMessage(error: any): string {
-    if (error.status === 422) {
-      return 'Erreur de validation. Vérifiez vos informations.';
-    }
-    if (error.status >= 500) {
-      return "Une erreur serveur s'est produite.";
-    }
-    if (error.status === 0) {
-      return 'Erreur de connexion.';
-    }
-    return 'Une erreur est survenue.';
+  private static toMessage(status: number): string {
+    if (status === 0) return `Connexion impossible. Vérifiez votre connexion Internet. ${PHONE_HINT}`;
+    if (status === 422) return 'Certaines informations sont invalides. Vérifiez le formulaire.';
+    if (status === 429) return `Trop de demandes envoyées. Réessayez dans quelques minutes. ${PHONE_HINT}`;
+    return `Une erreur est survenue lors de l'envoi. ${PHONE_HINT}`;
   }
 }

@@ -1,0 +1,57 @@
+/**
+ * Source unique des services proposés.
+ * Utilisée par la section « Nos Services », le formulaire de devis et le footer.
+ * ⚠️ Les `id` doivent rester alignés avec SERVICE_LABELS dans netlify/functions/devis.mjs.
+ */
+export interface ServiceItem {
+  id: string;
+  icon: string;
+  title: string;
+  description: string;
+  features: string[];
+}
+
+export const SERVICES: readonly ServiceItem[] = [
+  {
+    id: 'residentiel',
+    icon: 'fas fa-home',
+    title: 'Déménagement Résidentiel',
+    description: 'Déménagement complet de votre domicile avec emballage professionnel et transport sécurisé.',
+    features: ['Emballage et déballage', 'Démontage/remontage meubles', 'Protection des biens'],
+  },
+  {
+    id: 'entreprise',
+    icon: 'fas fa-building',
+    title: 'Déménagement Professionnel',
+    description: 'Transfert de bureaux et locaux commerciaux avec planification sur mesure.',
+    features: ['Déménagement week-end', 'Installation informatique', 'Archives et documents', 'Mobilier professionnel'],
+  },
+  {
+    id: 'international',
+    icon: 'fas fa-globe-europe',
+    title: 'Déménagement International',
+    description: "Déménagement vers l'étranger avec gestion complète des formalités.",
+    features: ['Formalités douanières', 'Emballage maritime', 'Assurance internationale'],
+  },
+  {
+    id: 'garde-meuble',
+    icon: 'fas fa-warehouse',
+    title: 'Garde-Meuble',
+    description: 'Solutions de stockage sécurisées pour vos biens pendant la transition.',
+    features: ['Stockage climatisé', 'Accès flexible', 'Inventaire détaillé'],
+  },
+  {
+    id: 'complementaires',
+    icon: 'fas fa-hands-helping',
+    title: 'Services Complémentaires',
+    description: 'Services additionnels pour un déménagement clé en main.',
+    features: ['Nettoyage pré/post', 'Raccordements', 'Aide administrative'],
+  },
+  {
+    id: 'express',
+    icon: 'fas fa-clock',
+    title: 'Déménagement Express',
+    description: "Service d'urgence pour les déménagements de dernière minute.",
+    features: ['Intervention rapide', 'Équipe dédiée', 'Matériel spécialisé', 'Planning flexible'],
+  },
+];

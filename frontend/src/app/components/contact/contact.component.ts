@@ -1,237 +1,141 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
-  FormBuilder,
-  FormGroup,
-  Validators,
   AbstractControl,
-  ValidationErrors,
-  FormsModule,
+  NonNullableFormBuilder,
   ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
 } from '@angular/forms';
-import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
+import { map } from 'rxjs';
+import { SERVICES } from '../../data/services.data';
+import { DevisError, DevisService } from '../../services/devis.service';
+
+type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
+
+const MESSAGE_MAX = 1000;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PHONE_PATTERN = /^(0\d{9}|\+\d{8,15})$/;
+
+/** Téléphone FR (10 chiffres) ou international (+ et 8 à 15 chiffres) ; espaces, points et tirets tolérés. */
+function phoneValidator(control: AbstractControl<string>): ValidationErrors | null {
+  const cleaned = (control.value ?? '').replace(/[\s.\-()]/g, '');
+  return !cleaned || PHONE_PATTERN.test(cleaned) ? null : { phone: true };
+}
+
+function todayIso(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+const ERROR_MESSAGES: Record<string, Record<string, string>> = {
+  prenom: {
+    required: 'Le prénom est obligatoire',
+    minlength: 'Minimum 2 caractères',
+    maxlength: 'Maximum 50 caractères',
+  },
+  nom: { required: 'Le nom est obligatoire', minlength: 'Minimum 2 caractères', maxlength: 'Maximum 50 caractères' },
+  email: { required: "L'email est obligatoire", pattern: 'Adresse email invalide' },
+  telephone: {
+    required: 'Le téléphone est obligatoire',
+    phone: 'Numéro invalide (ex. 06 12 34 56 78 ou +33 6 12 34 56 78)',
+  },
+  typeService: { required: 'Sélectionnez un type de déménagement' },
+  adresseDepart: {
+    required: "L'adresse est obligatoire",
+    minlength: 'Adresse trop courte',
+    maxlength: 'Adresse trop longue',
+  },
+  adresseArrivee: {
+    required: "L'adresse est obligatoire",
+    minlength: 'Adresse trop courte',
+    maxlength: 'Adresse trop longue',
+  },
+  message: { maxlength: `Maximum ${MESSAGE_MAX} caractères` },
+  consentement: { required: 'Votre accord est nécessaire pour traiter la demande' },
+};
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule],
 })
-export class ContactComponent implements OnInit {
-  private readonly fb = inject(FormBuilder);
+export class ContactComponent {
+  private readonly fb = inject(NonNullableFormBuilder);
   private readonly devisService = inject(DevisService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private startedAt = Date.now();
 
-  contactForm!: FormGroup;
-  isSubmitting = false;
-  submitSuccess = false;
-  submitError = '';
-  minDate: string = '';
-  messageCharCount = 0;
-  maxMessageLength = 500;
+  readonly services = SERVICES;
+  readonly messageMax = MESSAGE_MAX;
+  readonly minDate = todayIso();
+  readonly status = signal<SubmitStatus>('idle');
+  readonly errorMessage = signal('');
+  readonly submitted = signal(false);
 
-  ngOnInit(): void {
-    this.initializeForm();
+  readonly form = this.fb.group({
+    prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    nom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+    telephone: ['', [Validators.required, phoneValidator]],
+    typeService: ['', Validators.required],
+    datePrevisionnelle: [''],
+    adresseDepart: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+    adresseArrivee: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+    message: ['', Validators.maxLength(MESSAGE_MAX)],
+    consentement: [false, Validators.requiredTrue],
+    website: [''], // champ piège anti-robot
+  });
+
+  readonly messageLength = toSignal(this.form.controls.message.valueChanges.pipe(map((v) => v.length)), {
+    initialValue: 0,
+  });
+
+  showError(name: keyof typeof this.form.controls): boolean {
+    const control = this.form.controls[name];
+    return control.invalid && (control.touched || this.submitted());
   }
 
-  private initializeForm(): void {
-    this.minDate = new Date().toISOString().split('T')[0];
-    this.contactForm = this.fb.group(
-      {
-        prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-        nom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-        email: ['', [Validators.required, Validators.email]],
-        telephone: ['', Validators.required],
-        typeService: ['', Validators.required],
-        datePrevisionnelle: [''],
-        adresseDepart: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
-        adresseArrivee: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
-        message: ['', [Validators.maxLength(500)]],
-        consentement: [false, Validators.requiredTrue],
-        website: [''], // Honeypot
-      },
-      {
-        validators: [this.emailOrPhoneValidator(), this.phoneFormatValidator()],
-      },
-    );
-
-    // Track message character count
-    this.contactForm.get('message')?.valueChanges.subscribe((value: string) => {
-      this.messageCharCount = value?.length || 0;
-    });
-  }
-
-  /**
-   * Validateur personnalisé : au moins email OU téléphone doit être rempli
-   */
-  private emailOrPhoneValidator() {
-    return (group: AbstractControl): ValidationErrors | null => {
-      const email = group.get('email')?.value;
-      const telephone = group.get('telephone')?.value;
-
-      if (!email && !telephone) {
-        return { emailOrPhoneRequired: true };
-      }
-      return null;
-    };
-  }
-
-  /**
-   * Validateur de téléphone français avec flexibilité (espaces, points tolérés)
-   * Format accepté : 10 chiffres ou +33 suivi de 9 chiffres
-   */
-  private phoneFormatValidator() {
-    return (group: AbstractControl): ValidationErrors | null => {
-      const telephone = group.get('telephone')?.value;
-
-      if (!telephone) {
-        return null; // Validation par emailOrPhoneValidator
-      }
-
-      // Nettoyer : supprimer espaces, points, traits
-      const cleaned = telephone.replace(/[\s\.\-()]/g, '');
-
-      // Regex : 10 chiffres ou +33 suivi de 9 chiffres
-      const phoneRegex = /^(\d{10}|\+33\d{9})$/;
-
-      if (!phoneRegex.test(cleaned)) {
-        group.get('telephone')?.setErrors({ invalidPhoneFormat: true });
-        return { invalidPhoneFormat: true };
-      }
-
-      return null;
-    };
+  errorFor(name: keyof typeof this.form.controls): string {
+    const errors = this.form.controls[name].errors;
+    if (!errors) return '';
+    const key = Object.keys(errors)[0];
+    return ERROR_MESSAGES[name]?.[key] ?? 'Valeur invalide';
   }
 
   onSubmit(): void {
-    if (this.contactForm.invalid || this.isSubmitting) {
-      Object.keys(this.contactForm.controls).forEach((key) => {
-        this.contactForm.get(key)?.markAsTouched();
+    if (this.status() === 'submitting') return;
+    this.submitted.set(true);
+
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.host.nativeElement.querySelector<HTMLElement>('form .ng-invalid:not(form)')?.focus();
+      return;
+    }
+
+    const value = this.form.getRawValue();
+    this.status.set('submitting');
+    this.errorMessage.set('');
+
+    this.devisService
+      .envoyerDevis({
+        ...value,
+        telephone: value.telephone.replace(/[\s.\-()]/g, ''),
+        elapsedMs: Date.now() - this.startedAt,
+      })
+      .subscribe({
+        next: () => {
+          this.status.set('success');
+          this.submitted.set(false);
+          this.form.reset();
+          this.startedAt = Date.now();
+        },
+        error: (error: DevisError) => {
+          this.status.set('error');
+          this.errorMessage.set(error.message);
+        },
       });
-      return;
-    }
-
-    // Vérifier honeypot
-    if (this.contactForm.get('website')?.value) {
-      // Silencieusement, considérer comme succès mais ne rien envoyer
-      this.submitSuccess = true;
-      this.resetForm();
-      return;
-    }
-
-    this.isSubmitting = true;
-    this.submitError = '';
-
-    const formValue = this.contactForm.value;
-    const devisRequest: DevisRequest = {
-      prenom: formValue.prenom,
-      nom: formValue.nom,
-      email: formValue.email,
-      telephone: formValue.telephone,
-      typeService: formValue.typeService,
-      datePrevisionnelle: formValue.datePrevisionnelle || undefined,
-      adresseDepart: formValue.adresseDepart,
-      adresseArrivee: formValue.adresseArrivee,
-      message: formValue.message || '',
-      consentement: formValue.consentement,
-      website: formValue.website, // Honeypot
-    };
-
-    this.devisService.envoyerDevis(devisRequest).subscribe({
-      next: (response: DevisResponse) => {
-        this.isSubmitting = false;
-        this.submitSuccess = true;
-        this.submitError = '';
-        this.resetForm();
-      },
-      error: (error: any) => {
-        this.isSubmitting = false;
-        this.submitSuccess = false;
-
-        // Afficher message d'erreur en français
-        if (error.status === 422) {
-          this.submitError = 'Erreur de validation. Vérifiez vos informations et réessayez.';
-        } else if (error.status >= 500) {
-          this.submitError =
-            "Une erreur serveur s'est produite. Veuillez contacter Reflex Déménagement au 01 70 24 08 60.";
-        } else if (error.status === 0) {
-          this.submitError = 'Erreur de connexion. Vérifiez votre connexion Internet ou appelez au 01 70 24 08 60.';
-        } else {
-          this.submitError = 'Une erreur est survenue. Veuillez réessayer ou appelez au 01 70 24 08 60.';
-        }
-
-        console.error("Erreur lors de l'envoi du devis:", error);
-      },
-    });
-  }
-
-  private resetForm(): void {
-    this.contactForm.reset();
-    this.messageCharCount = 0;
-    // Remettre la date minimale
-    this.minDate = new Date().toISOString().split('T')[0];
-  }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.contactForm.get(fieldName);
-    return !!(field && field.invalid && field.touched);
-  }
-
-  isFieldError(fieldName: string): boolean {
-    const field = this.contactForm.get(fieldName);
-    return !!(field && field.invalid && (field.dirty || field.touched));
-  }
-
-  getFieldError(fieldName: string): string {
-    const field = this.contactForm.get(fieldName);
-
-    if (!field || !field.errors) {
-      return '';
-    }
-
-    const errors = field.errors;
-
-    switch (fieldName) {
-      case 'prenom':
-      case 'nom':
-        if (errors['required']) return 'Ce champ est obligatoire';
-        if (errors['minlength']) return 'Minimum 2 caractères';
-        if (errors['maxlength']) return 'Maximum 50 caractères';
-        break;
-
-      case 'email':
-        if (errors['required']) return "L'email est obligatoire";
-        if (errors['email']) return 'Adresse email invalide';
-        break;
-
-      case 'telephone':
-        if (errors['required']) return 'Au moins un contact (email ou téléphone) est obligatoire';
-        if (errors['invalidPhoneFormat']) return 'Téléphone invalide (10 chiffres ou +33 suivi de 9 chiffres)';
-        break;
-
-      case 'typeService':
-        if (errors['required']) return 'Veuillez sélectionner un type de déménagement';
-        break;
-
-      case 'adresseDepart':
-      case 'adresseArrivee':
-        if (errors['required']) return "L'adresse est obligatoire";
-        if (errors['minlength']) return "L'adresse est trop courte";
-        if (errors['maxlength']) return "L'adresse est trop longue";
-        break;
-
-      case 'message':
-        if (errors['maxlength']) return 'Maximum 500 caractères';
-        break;
-
-      case 'consentement':
-        if (errors['required']) return 'Vous devez accepter la politique de confidentialité';
-        break;
-    }
-
-    return 'Erreur de validation';
-  }
-
-  hasFormError(): boolean {
-    return this.contactForm.hasError('emailOrPhoneRequired') && this.contactForm.touched;
   }
 }
