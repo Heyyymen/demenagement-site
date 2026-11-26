@@ -13,7 +13,7 @@ module.exports = {
       },
       fontFamily: {
         display: ['"Clash Display"', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        body: ['"Inter Variable"', 'Inter', 'sans-serif'],
       },
       boxShadow: {
         soft: '0 20px 40px -10px rgba(0, 0, 0, 0.05)',

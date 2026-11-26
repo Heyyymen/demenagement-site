@@ -1,3 +1,12 @@
+/* Clash Display 700 — Fontshare (ITF Free Font License), auto-hébergée */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/assets/fonts/clash-display-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +15,7 @@ body {
   margin: 0;
   padding: 0;
   font-family:
+    'Inter Variable',
     'Inter',
     -apple-system,
     BlinkMacSystemFont,
