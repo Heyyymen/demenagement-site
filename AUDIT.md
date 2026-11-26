@@ -202,3 +202,83 @@
 5. Confirmation des chiffres « 500+ clients », « 4.9/5 », et sort de « Disponible demain ».
 6. Contrastes (A3) et bouton téléphone bleu (C8) : OK pour les petits ajustements de couleur ?
 7. Docker/nginx : garder ou supprimer ?
+
+---
+
+# Bilan après upgrade (phase 3)
+
+> Mesures du 26/11/2026 sur le build final de `feat/audit-upgrade`, servi localement avec compression gzip et
+> les mêmes en-têtes que Netlify (CSP, cache). Le « avant » a été mesuré sur le site en production.
+> Lighthouse 12, Chrome headless ; les valeurs mobile sont la moyenne de 2 passages.
+
+## Avant / après
+
+| Mesure | Avant | Après |
+|---|---|---|
+| Lighthouse mobile — Performance | 64 | **94–95** |
+| Lighthouse mobile — Accessibilité | 81 | **100** |
+| Lighthouse mobile — Bonnes pratiques / SEO | 100 / 100 | 100 / 100 |
+| Lighthouse desktop — Perf / A11y / BP / SEO | 87 / 89 / 100 / 100 | **100 / 100 / 100 / 100** |
+| LCP mobile | 9,9 s | **2,5 s** |
+| FCP mobile | 4,3 s | **2,0 s** |
+| CLS | 0 | 0 – 0,035 |
+| Poids total de la page | 1 201 Ko | **236 Ko** (−80 %) |
+| Requêtes vers des tiers (CDN, polices) | 5 domaines | **0** |
+| JS initial (transféré) | 96 Ko | 105 Ko (+ routeur, pages légales, icônes ; − zone.js) |
+| `npm audit` | 73 vulnérabilités (4 critiques) | **0** |
+| Angular / TypeScript / Node | 15 (EOL) / 4.8 / 18 (EOL) | **22.3 / 6.0 / 24 LTS** |
+| Lint / formatage / CI | inexistants (lint factice) | ESLint + Prettier + audit + Lighthouse CI |
+| Formulaire de devis | **aucun email envoyé** | email entreprise + accusé client (Resend), anti-spam |
+| En-têtes de sécurité | sans CSP | CSP stricte, Permissions-Policy, COOP |
+| Pages légales | absentes | Mentions légales + Politique de confidentialité |
+
+## Ce qui a été fait (par lot)
+
+1. **Fondations** — Angular 15 → 22 palier par palier, builder esbuild, standalone + signals + zoneless, Node 24, ESLint/Prettier, Karma et Docker supprimés.
+2. **Formulaire** — fonction réécrite (Resend, validation serveur, origine, honeypot + délai, limite par IP, plus de données personnelles dans les logs), formulaire typé et accessible, liste de services unique, correction de l'URL `localhost` en production.
+3. **Légal** — routeur, pages Mentions légales / Confidentialité alimentées par `company.data.ts`, footer corrigé (Instagram, année dynamique, liens morts).
+4. **Performance** — image hero AVIF/WebP responsive + preload, icônes SVG au lieu du CDN Font Awesome, polices auto-hébergées, cache long, zone.js retiré, logo redimensionné.
+5. **Accessibilité** — burger accessible, lien d'évitement, focus visible, `prefers-reduced-motion`, contrastes AA, titres, notes lisibles.
+6. **SEO** — vrai favicon + manifest, sitemap, canonical par page, OG/Twitter corrigés, JSON-LD `MovingCompany`.
+7. **Sécurité HTTP** — CSP sans tiers, Permissions-Policy, COOP.
+8. **Nettoyage** — CSS et code morts, coquilles, carte « Disponible demain » retirée.
+9. **CI & doc** — CI complète avec Lighthouse CI, README réécrit.
+
+Découverte en cours de route : la texture `noise.svg` chargée depuis `grainy-gradients.vercel.app` **redirige
+désormais vers un domaine tiers inconnu** (`bytehavenai.com`). Elle est maintenant servie localement.
+
+## ⚠️ À faire avant de fusionner dans `main`
+
+1. **Compléter `frontend/src/app/data/company.data.ts`** : raison sociale, forme juridique, capital, siège, SIRET, RCS,
+   TVA, n° d'inscription au registre des transporteurs, directeur de publication, assurance RC, médiateur de la
+   consommation. Tant qu'ils manquent, les pages légales affichent « [À compléter] » en jaune.
+2. **Configurer Resend** (voir README › « Mettre en route l'envoi des emails ») et ajouter `RESEND_API_KEY` dans
+   Netlify **avant** le déploiement : sans clé, le formulaire répond « service indisponible » (au lieu de perdre
+   la demande silencieusement comme avant).
+3. Vérifier l'adresse de l'hébergeur Netlify dans les mentions légales (sur netlify.com › Legal).
+
+## À vérifier à la main après déploiement
+
+- [ ] Envoyer une vraie demande de devis depuis le site en ligne → réception dans Gmail + accusé côté client.
+- [ ] Rendu réel sur iPhone (Safari) et Android (Chrome) : menu mobile, formulaire, sélecteur de date, mode sombre.
+- [ ] `curl -I https://reflexdemenagement.fr/` : présence de `Content-Security-Policy` et `Permissions-Policy`.
+- [ ] `curl -I https://reflexdemenagement.fr/main-XXXX.js` (nom réel dans la page) : `Cache-Control: … immutable`
+      (si absent, la syntaxe `/*.js` n'est pas prise en compte par Netlify : il faudra l'adapter).
+- [ ] Aperçu de partage (WhatsApp / Facebook Sharing Debugger) avec la nouvelle image OG.
+- [ ] Google Search Console : soumettre `sitemap.xml`, tester les données structurées (Rich Results Test).
+- [ ] Le lien « Voir tous nos avis sur Google » (URL de recherche longue, fragile) : le remplacer par le lien court
+      de la fiche Google Business Profile (« Partager » › lien).
+
+## Reste à faire / pistes (non réalisées)
+
+| Sujet | Pourquoi | Effort |
+|---|---|---|
+| CGV | Document à fournir (voir recommandations ci-dessous), puis page + lien footer | M |
+| « Disponibilité 7j/7 » (À propos) vs horaires « Lun – Sam » | Incohérence à trancher | S |
+| Variante claire du logo pour le mode sombre (R4) | Le filtre `invert` dénature le logo | S (fichier à fournir) |
+| Header en Tailwind pur (Q3) | Maintenance ; aucun effet visible | M |
+| Page 404 dédiée | Les URL inconnues redirigent vers l'accueil (soft 404) | S |
+| Pré-rendu (SSG) `@angular/ssr` | SEO et premier affichage encore meilleurs | M |
+| Pages par service / zone | SEO local | L |
+| Barre d'appel collante sur mobile, estimateur de volume, analytics sans cookies | Conversion / mesure | S–M |
+| Tailwind 4 | Refonte de la config, sans gain visible | M |
