@@ -34,3 +34,30 @@
   targetPort = 4200
   port = 8888
   framework = "#custom"
+
+# Cache navigateur : fichiers hashés par Angular (contenu ⇒ nom) = cache 1 an immuable
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/media/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/assets/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images non hashées : 1 semaine (changer le nom du fichier en cas de modification)
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
