@@ -21,7 +21,7 @@
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
-              "src/polyfills.ts"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "demenagement-site:build:production"
+              "buildTarget": "demenagement-site:build:production"
             },
             "development": {
-              "browserTarget": "demenagement-site:build:development"
+              "buildTarget": "demenagement-site:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,14 +77,14 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "demenagement-site:build"
+            "buildTarget": "demenagement-site:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": [
-              "src/polyfills.ts"
+              "zone.js"
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
