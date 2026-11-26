@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 
 interface Testimonial {
   author: string;
@@ -13,6 +14,7 @@ interface Testimonial {
   templateUrl: './testimonials.component.html',
   styleUrls: ['./testimonials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
 })
 export class TestimonialsComponent {
   testimonials: Testimonial[] = [

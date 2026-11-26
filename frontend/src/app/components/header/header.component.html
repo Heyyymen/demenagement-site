@@ -60,14 +60,14 @@
         aria-label="Toggle Dark Mode"
       >
         @if (isDarkMode()) {
-          <i class="fas fa-sun text-yellow-500"></i>
+          <app-icon name="sun" class="text-yellow-500" />
         } @else {
-          <i class="fas fa-moon text-gray-600 dark:text-yellow-400"></i>
+          <app-icon name="moon" class="text-gray-600 dark:text-yellow-400" />
         }
       </button>
 
       <div class="nav-contact flex items-center gap-4 hidden md:flex">
-        <a href="tel:+33170240860" class="phone-btn"> <i class="fas fa-phone"></i> 01 70 24 08 60 </a>
+        <a href="tel:+33170240860" class="phone-btn"> <app-icon name="phone" /> 01 70 24 08 60 </a>
       </div>
 
       <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen()">

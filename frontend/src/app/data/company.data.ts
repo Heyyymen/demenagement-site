@@ -1,3 +1,5 @@
+import type { IconName } from '../components/icon/icon.component';
+
 /**
  * Informations légales et de contact de l'entreprise — source unique.
  * Utilisées par les mentions légales, la politique de confidentialité, le footer et les données structurées.
@@ -23,7 +25,7 @@ export interface CompanyInfo {
   hours: string;
   area: string;
   website: string;
-  social: { name: string; url: string; icon: string }[];
+  social: { name: string; url: string; icon: IconName }[];
 }
 
 export const COMPANY: CompanyInfo = {
@@ -45,7 +47,7 @@ export const COMPANY: CompanyInfo = {
   area: 'Paris, Île-de-France, toute la France et international',
   website: 'https://reflexdemenagement.fr',
   social: [
-    { name: 'Instagram', url: 'https://www.instagram.com/wasryreflex/', icon: 'fab fa-instagram' },
-    { name: 'TikTok', url: 'https://www.tiktok.com/@wasry.reflex.dmna', icon: 'fab fa-tiktok' },
+    { name: 'Instagram', url: 'https://www.instagram.com/wasryreflex/', icon: 'instagram' },
+    { name: 'TikTok', url: 'https://www.tiktok.com/@wasry.reflex.dmna', icon: 'tiktok' },
   ],
 };

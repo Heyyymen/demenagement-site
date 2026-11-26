@@ -15,7 +15,7 @@
             <div
               class="w-14 h-14 bg-white dark:bg-reflex-dark-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
             >
-              <i class="fas fa-phone-alt text-2xl text-reflex-orange"></i>
+              <app-icon name="phone-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
               <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Téléphone</h4>
@@ -32,7 +32,7 @@
             <div
               class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
             >
-              <i class="fas fa-envelope text-2xl text-reflex-orange"></i>
+              <app-icon name="envelope" class="text-2xl text-reflex-orange" />
             </div>
             <div>
               <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h4>
@@ -49,7 +49,7 @@
             <div
               class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
             >
-              <i class="fas fa-map-marker-alt text-2xl text-reflex-orange"></i>
+              <app-icon name="map-marker-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
               <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h4>
@@ -62,7 +62,7 @@
           class="faq-preview bg-white dark:bg-reflex-dark-card p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700"
         >
           <h4 class="font-bold text-reflex-dark dark:text-white mb-4 flex items-center gap-2">
-            <i class="fas fa-question-circle text-reflex-orange"></i>
+            <app-icon name="question-circle" class="text-reflex-orange" />
             Question fréquente
           </h4>
           <p class="font-medium text-reflex-dark dark:text-white mb-2">
@@ -86,7 +86,7 @@
               class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl"
             >
               <p class="text-green-800 dark:text-green-200 font-medium flex items-center gap-2">
-                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <app-icon name="check-circle" />
                 Merci ! Votre demande a bien été envoyée. Nous vous recontactons sous 24 h ouvrées.
               </p>
             </div>
@@ -99,7 +99,7 @@
           @if (submitted() && form.invalid) {
             <div class="mb-6 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
               <p class="text-red-700 dark:text-red-300 text-sm flex items-center gap-2">
-                <i class="fas fa-exclamation-circle" aria-hidden="true"></i>
+                <app-icon name="exclamation-circle" />
                 Certains champs sont à compléter ou à corriger.
               </p>
             </div>
@@ -340,7 +340,7 @@
             class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
           >
             @if (status() === 'submitting') {
-              <i class="fas fa-spinner fa-spin" aria-hidden="true"></i> Envoi en cours...
+              <app-icon name="spinner" class="animate-spin" /> Envoi en cours...
             } @else {
               Envoyer ma demande
             }

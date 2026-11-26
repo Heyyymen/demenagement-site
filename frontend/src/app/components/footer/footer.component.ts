@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 import { RouterLink } from '@angular/router';
 import { COMPANY } from '../../data/company.data';
 import { SERVICES } from '../../data/services.data';
@@ -8,7 +9,7 @@ import { SectionNavService } from '../../services/section-nav.service';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink],
+  imports: [IconComponent, RouterLink],
 })
 export class FooterComponent {
   private readonly sectionNav = inject(SectionNavService);

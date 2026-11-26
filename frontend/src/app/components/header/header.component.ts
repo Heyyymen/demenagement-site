@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 import { ThemeService } from '../../services/theme.service';
 import { SectionNavService } from '../../services/section-nav.service';
 
@@ -7,6 +8,7 @@ import { SectionNavService } from '../../services/section-nav.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
 })
 export class HeaderComponent {
   private readonly themeService = inject(ThemeService);

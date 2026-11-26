@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
 import { SectionNavService } from '../../services/section-nav.service';
 
 @Component({
@@ -6,6 +7,7 @@ import { SectionNavService } from '../../services/section-nav.service';
   templateUrl: './hero.component.html',
   styleUrls: ['./hero.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent],
 })
 export class HeroComponent {
   private readonly sectionNav = inject(SectionNavService);
