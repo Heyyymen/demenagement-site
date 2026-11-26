@@ -1,33 +1,28 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
-import { AsyncPipe } from '@angular/common';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [AsyncPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
   private readonly themeService = inject(ThemeService);
-  isMenuOpen = false;
-  isDarkMode$ = this.themeService.isDarkMode$;
+  readonly isMenuOpen = signal(false);
+  readonly isDarkMode = this.themeService.isDarkMode;
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  toggleMenu(): void {
+    this.isMenuOpen.update((open) => !open);
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.themeService.toggleTheme();
   }
 
-  scrollToSection(sectionId: string, event: Event) {
+  scrollToSection(sectionId: string, event: Event): void {
     event.preventDefault();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    this.isMenuOpen = false;
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    this.isMenuOpen.set(false);
   }
 }

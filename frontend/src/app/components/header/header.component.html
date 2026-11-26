@@ -1,14 +1,14 @@
 <header class="header">
   <div class="container">
-    <div class="nav-brand flex items-center cursor-pointer" (click)="scrollToSection('hero', $event)">
+    <a href="#hero" class="nav-brand flex items-center" (click)="scrollToSection('hero', $event)">
       <img
         src="assets/logo.webp"
         alt="REFLEX DÉMÉNAGEMENT"
         class="logo h-20 w-auto object-contain transition-transform hover:scale-105 dark:invert dark:grayscale dark:mix-blend-screen"
       />
-    </div>
+    </a>
 
-    <nav class="nav-menu" [class.active]="isMenuOpen">
+    <nav class="nav-menu" [class.active]="isMenuOpen()">
       <ul class="flex gap-8">
         <li>
           <a
@@ -59,11 +59,10 @@
         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         aria-label="Toggle Dark Mode"
       >
-        @if (!(isDarkMode$ | async)) {
-          <i class="fas fa-moon text-gray-600 dark:text-yellow-400"></i>
-        }
-        @if (isDarkMode$ | async) {
+        @if (isDarkMode()) {
           <i class="fas fa-sun text-yellow-500"></i>
+        } @else {
+          <i class="fas fa-moon text-gray-600 dark:text-yellow-400"></i>
         }
       </button>
 
@@ -71,7 +70,7 @@
         <a href="tel:+33170240860" class="phone-btn"> <i class="fas fa-phone"></i> 01 70 24 08 60 </a>
       </div>
 
-      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
+      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen()">
         <span></span>
         <span></span>
         <span></span>
