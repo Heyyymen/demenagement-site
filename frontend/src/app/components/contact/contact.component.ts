@@ -1,88 +1,169 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DevisService, DevisRequest } from '../../services/devis.service';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })
-export class ContactComponent {
-  contactForm: FormGroup;
-  isSubmitted = false;
+export class ContactComponent implements OnInit {
+  contactForm!: FormGroup;
   isSubmitting = false;
-  submitMessage = '';
+  submitSuccess = false;
   submitError = '';
-  gmailLink = '';
-  gmailWebLink = '';
-  showGmailButton = false;
-
   minDate: string = '';
+  messageCharCount = 0;
+  maxMessageLength = 500;
 
   constructor(
     private readonly fb: FormBuilder,
     private readonly devisService: DevisService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  private initializeForm(): void {
     this.minDate = new Date().toISOString().split('T')[0];
-    this.contactForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9\s\-+()]+$/)]],
-      moveType: ['', Validators.required],
-      moveDate: [''],
-      adresseDepart: ['', Validators.required],
-      adresseArrivee: ['', Validators.required],
-      message: ['', [Validators.required, Validators.minLength(10)]]
+    this.contactForm = this.fb.group(
+      {
+        prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+        nom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+        email: ['', [Validators.required, Validators.email]],
+        telephone: ['', Validators.required],
+        typeService: ['', Validators.required],
+        datePrevisionnelle: [''],
+        adresseDepart: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+        adresseArrivee: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+        message: ['', [Validators.maxLength(500)]],
+        consentement: [false, Validators.requiredTrue],
+        website: [''] // Honeypot
+      },
+      {
+        validators: [this.emailOrPhoneValidator(), this.phoneFormatValidator()]
+      }
+    );
+
+    // Track message character count
+    this.contactForm.get('message')?.valueChanges.subscribe((value: string) => {
+      this.messageCharCount = value?.length || 0;
     });
   }
 
-  onSubmit() {
-    if (this.contactForm.valid) {
-      this.isSubmitting = true;
-      const formValue = this.contactForm.value;
+  /**
+   * Validateur personnalisé : au moins email OU téléphone doit être rempli
+   */
+  private emailOrPhoneValidator() {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const email = group.get('email')?.value;
+      const telephone = group.get('telephone')?.value;
 
-      const subject = `Demande de devis - ${formValue.firstName} ${formValue.lastName}`;
-      const body = `
-Bonjour,
+      if (!email && !telephone) {
+        return { emailOrPhoneRequired: true };
+      }
+      return null;
+    };
+  }
 
-Je souhaite obtenir un devis pour un déménagement. Voici mes informations :
+  /**
+   * Validateur de téléphone français avec flexibilité (espaces, points tolérés)
+   * Format accepté : 10 chiffres ou +33 suivi de 9 chiffres
+   */
+  private phoneFormatValidator() {
+    return (group: AbstractControl): ValidationErrors | null => {
+      const telephone = group.get('telephone')?.value;
 
-Nom : ${formValue.lastName}
-Prénom : ${formValue.firstName}
-Email : ${formValue.email}
-Téléphone : ${formValue.phone}
+      if (!telephone) {
+        return null; // Validation par emailOrPhoneValidator
+      }
 
-Type de déménagement : ${formValue.moveType}
-Date souhaitée : ${formValue.moveDate}
+      // Nettoyer : supprimer espaces, points, traits
+      const cleaned = telephone.replace(/[\s\.\-()]/g, '');
 
-Adresse de départ : ${formValue.adresseDepart}
-Adresse d'arrivée : ${formValue.adresseArrivee}
+      // Regex : 10 chiffres ou +33 suivi de 9 chiffres
+      const phoneRegex = /^(\d{10}|\+33\d{9})$/;
 
-Message :
-${formValue.message}
+      if (!phoneRegex.test(cleaned)) {
+        group.get('telephone')?.setErrors({ invalidPhoneFormat: true });
+        return { invalidPhoneFormat: true };
+      }
 
-Cordialement,
-${formValue.firstName} ${formValue.lastName}
-      `.trim();
+      return null;
+    };
+  }
 
-      const mailtoLink = `mailto:reflexdemenagement@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-      // Open the mailto link
-      window.location.href = mailtoLink;
-
-      this.isSubmitting = false;
-      this.isSubmitted = true;
-      this.submitMessage = 'Votre client de messagerie a été ouvert avec les informations préremplies.';
-
-      // Optional: still call the service if you want to save data to backend, 
-      // but for now we prioritize the user request to open email.
-    } else {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
-      Object.keys(this.contactForm.controls).forEach(key => {
+  onSubmit(): void {
+    if (this.contactForm.invalid || this.isSubmitting) {
+      Object.keys(this.contactForm.controls).forEach((key) => {
         this.contactForm.get(key)?.markAsTouched();
       });
+      return;
     }
+
+    // Vérifier honeypot
+    if (this.contactForm.get('website')?.value) {
+      // Silencieusement, considérer comme succès mais ne rien envoyer
+      this.submitSuccess = true;
+      this.resetForm();
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.submitError = '';
+
+    const formValue = this.contactForm.value;
+    const devisRequest: DevisRequest = {
+      prenom: formValue.prenom,
+      nom: formValue.nom,
+      email: formValue.email,
+      telephone: formValue.telephone,
+      typeService: formValue.typeService,
+      datePrevisionnelle: formValue.datePrevisionnelle || undefined,
+      adresseDepart: formValue.adresseDepart,
+      adresseArrivee: formValue.adresseArrivee,
+      message: formValue.message || '',
+      consentement: formValue.consentement,
+      website: formValue.website // Honeypot
+    };
+
+    this.devisService.envoyerDevis(devisRequest).subscribe({
+      next: (response: DevisResponse) => {
+        this.isSubmitting = false;
+        this.submitSuccess = true;
+        this.submitError = '';
+        this.resetForm();
+      },
+      error: (error: any) => {
+        this.isSubmitting = false;
+        this.submitSuccess = false;
+
+        // Afficher message d'erreur en français
+        if (error.status === 422) {
+          this.submitError =
+            'Erreur de validation. Vérifiez vos informations et réessayez.';
+        } else if (error.status >= 500) {
+          this.submitError =
+            'Une erreur serveur s\'est produite. Veuillez contacter Reflex Déménagement au 01 70 24 08 60.';
+        } else if (error.status === 0) {
+          this.submitError =
+            'Erreur de connexion. Vérifiez votre connexion Internet ou appelez au 01 70 24 08 60.';
+        } else {
+          this.submitError =
+            'Une erreur est survenue. Veuillez réessayer ou appelez au 01 70 24 08 60.';
+        }
+
+        console.error('Erreur lors de l\'envoi du devis:', error);
+      }
+    });
+  }
+
+  private resetForm(): void {
+    this.contactForm.reset();
+    this.messageCharCount = 0;
+    // Remettre la date minimale
+    this.minDate = new Date().toISOString().split('T')[0];
   }
 
   isFieldInvalid(fieldName: string): boolean {
@@ -90,14 +171,63 @@ ${formValue.firstName} ${formValue.lastName}
     return !!(field && field.invalid && field.touched);
   }
 
+  isFieldError(fieldName: string): boolean {
+    const field = this.contactForm.get(fieldName);
+    return !!(field && field.invalid && (field.dirty || field.touched));
+  }
+
   getFieldError(fieldName: string): string {
     const field = this.contactForm.get(fieldName);
-    if (field?.errors) {
-      if (field.errors['required']) return 'Ce champ est obligatoire';
-      if (field.errors['email']) return 'Format email invalide';
-      if (field.errors['minlength']) return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
-      if (field.errors['pattern']) return 'Format invalide';
+
+    if (!field || !field.errors) {
+      return '';
     }
-    return '';
+
+    const errors = field.errors;
+
+    switch (fieldName) {
+      case 'prenom':
+      case 'nom':
+        if (errors['required']) return 'Ce champ est obligatoire';
+        if (errors['minlength']) return 'Minimum 2 caractères';
+        if (errors['maxlength']) return 'Maximum 50 caractères';
+        break;
+
+      case 'email':
+        if (errors['required']) return 'L\'email est obligatoire';
+        if (errors['email']) return 'Adresse email invalide';
+        break;
+
+      case 'telephone':
+        if (errors['required']) return 'Au moins un contact (email ou téléphone) est obligatoire';
+        if (errors['invalidPhoneFormat'])
+          return 'Téléphone invalide (10 chiffres ou +33 suivi de 9 chiffres)';
+        break;
+
+      case 'typeService':
+        if (errors['required']) return 'Veuillez sélectionner un type de déménagement';
+        break;
+
+      case 'adresseDepart':
+      case 'adresseArrivee':
+        if (errors['required']) return 'L\'adresse est obligatoire';
+        if (errors['minlength']) return 'L\'adresse est trop courte';
+        if (errors['maxlength']) return 'L\'adresse est trop longue';
+        break;
+
+      case 'message':
+        if (errors['maxlength']) return 'Maximum 500 caractères';
+        break;
+
+      case 'consentement':
+        if (errors['required']) return 'Vous devez accepter la politique de confidentialité';
+        break;
+    }
+
+    return 'Erreur de validation';
+  }
+
+  hasFormError(): boolean {
+    return this.contactForm.hasError('emailOrPhoneRequired') && this.contactForm.touched;
   }
 }

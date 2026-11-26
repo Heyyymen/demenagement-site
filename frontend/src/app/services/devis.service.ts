@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 export interface DevisRequest {
+  prenom: string;
   nom: string;
   email: string;
   telephone: string;
@@ -11,57 +14,48 @@ export interface DevisRequest {
   adresseDepart: string;
   adresseArrivee: string;
   message: string;
+  consentement: boolean;
+  website?: string; // Honeypot field
 }
 
-export interface ApiResponse {
+export interface DevisResponse {
   success: boolean;
   message: string;
-  data?: {
-    client: {
-      nom: string;
-      email: string;
-      telephone: string;
-    };
-    service: string;
-    mailtoLink: string;
-    gmailWebLink: string;
-    emailPreview?: {
-      to: string;
-      subject: string;
-      bodyPreview: string;
-    };
-  };
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class DevisService {
-  private readonly apiUrl = this.getApiUrl();
+  private readonly apiUrl = `${environment.apiUrl}/devis`;
 
   constructor(private readonly http: HttpClient) {}
 
-  private getApiUrl(): string {
-    // En production sur Netlify, utilise les fonctions serverless
-    if (window.location.hostname !== 'localhost') {
-      return '/.netlify/functions';
-    }
-    // En développement local, utilise le serveur Node.js
-    return 'http://localhost:3000/api';
+  envoyerDevis(devisData: DevisRequest): Observable<DevisResponse> {
+    return this.http.post<DevisResponse>(this.apiUrl, devisData).pipe(
+      catchError((error) => {
+        console.error('Erreur lors de l\'envoi du devis:', error);
+        
+        // Renvoyez une erreur structurée
+        return throwError(() => ({
+          status: error.status || 0,
+          message: this.getErrorMessage(error),
+          originalError: error
+        }));
+      })
+    );
   }
 
-  envoyerDevis(devisData: DevisRequest): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/devis`, devisData);
-  }
-
-  testerConnexion(): Observable<ApiResponse> {
-    // En production, pas besoin de test de connexion
-    if (window.location.hostname !== 'localhost') {
-      return new Observable(observer => {
-        observer.next({ success: true, message: 'Fonctions Netlify actives' });
-        observer.complete();
-      });
+  private getErrorMessage(error: any): string {
+    if (error.status === 422) {
+      return 'Erreur de validation. Vérifiez vos informations.';
     }
-    return this.http.get<ApiResponse>(`${this.apiUrl}/test`);
+    if (error.status >= 500) {
+      return 'Une erreur serveur s\'est produite.';
+    }
+    if (error.status === 0) {
+      return 'Erreur de connexion.';
+    }
+    return 'Une erreur est survenue.';
   }
 }
