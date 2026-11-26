@@ -30,13 +30,13 @@ export interface CompanyInfo {
 
 export const COMPANY: CompanyInfo = {
   brand: 'REFLEX DÉMÉNAGEMENT',
-  legalName: null, // ex. « WASRY REFLEX DÉMÉNAGEMENT »
-  legalForm: null, // ex. « SAS », « SARL », « EI »
-  capital: null, // ex. « 1 000 € » (sauf entreprise individuelle)
-  address: null, // adresse du siège social
-  siret: null, // 14 chiffres
-  rcs: null, // ex. « RCS Paris 123 456 789 »
-  vat: null, // n° TVA intracommunautaire, ex. « FR12 123456789 »
+  legalName: 'WASRY (REFLEX DÉMÉNAGEMENT)',
+  legalForm: 'SAS (société par actions simplifiée)',
+  capital: '5 000 €',
+  address: '3 rue Louise Michel, 93400 Saint-Ouen-sur-Seine',
+  siret: '830 680 450 00012',
+  rcs: 'RCS Bobigny 830 680 450', // greffe de Seine-Saint-Denis — à confirmer sur le Kbis
+  vat: 'FR06 830 680 450',
   transportRegistry: null, // n° d'inscription au registre des transporteurs (DREAL)
   publicationDirector: null, // nom du gérant / président
   insurance: null, // assureur RC professionnelle + zone couverte
