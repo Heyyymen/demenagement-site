@@ -18,7 +18,7 @@
               <app-icon name="phone-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Téléphone</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Téléphone</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-1">Du lundi au samedi, 8h - 20h</p>
               <a
                 href="tel:+33170240860"
@@ -35,7 +35,7 @@
               <app-icon name="envelope" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-1">Pour toute demande écrite</p>
               <a
                 href="mailto:reflexdemenagement@gmail.com"
@@ -52,7 +52,7 @@
               <app-icon name="map-marker-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h3>
               <p class="text-gray-600 dark:text-gray-400">Toute l'Île-de-France et déménagements nationaux.</p>
             </div>
           </div>
@@ -61,10 +61,10 @@
         <div
           class="faq-preview bg-white dark:bg-reflex-dark-card p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700"
         >
-          <h4 class="font-bold text-reflex-dark dark:text-white mb-4 flex items-center gap-2">
+          <h3 class="font-bold text-reflex-dark dark:text-white mb-4 flex items-center gap-2">
             <app-icon name="question-circle" class="text-reflex-orange" />
             Question fréquente
-          </h4>
+          </h3>
           <p class="font-medium text-reflex-dark dark:text-white mb-2">
             Combien de temps à l'avance dois-je réserver ?
           </p>
@@ -321,7 +321,9 @@
               />
               <label for="consentement" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                 J'accepte que mes informations soient utilisées pour répondre à ma demande de devis.
-                <a routerLink="/politique-de-confidentialite" class="text-reflex-orange hover:underline font-medium"
+                <a
+                  routerLink="/politique-de-confidentialite"
+                  class="text-reflex-orange-text dark:text-reflex-orange hover:underline font-medium"
                   >Lire notre politique de confidentialité</a
                 >
                 <span aria-hidden="true">*</span>
@@ -337,7 +339,7 @@
           <button
             type="submit"
             [disabled]="status() === 'submitting'"
-            class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+            class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange-text text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
           >
             @if (status() === 'submitting') {
               <app-icon name="spinner" class="animate-spin" /> Envoi en cours...

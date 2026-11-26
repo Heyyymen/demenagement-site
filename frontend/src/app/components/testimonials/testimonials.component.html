@@ -12,11 +12,14 @@
         <div
           class="testimonial-card bg-reflex-cream/50 dark:bg-reflex-dark-card p-8 rounded-2xl relative border border-transparent dark:border-gray-700 hover:-translate-y-2 transition-transform duration-300"
         >
-          <div class="quote-icon absolute top-6 right-8 text-6xl text-reflex-orange/10 font-serif">"</div>
+          <div aria-hidden="true" class="quote-icon absolute top-6 right-8 text-6xl text-reflex-orange/10 font-serif">
+            "
+          </div>
           <div class="flex items-center gap-1 text-yellow-400 mb-6">
             @for (star of [1, 2, 3, 4, 5]; track star) {
               <app-icon name="star" />
             }
+            <span class="sr-only">Note : {{ testimonial.rating }} sur 5</span>
           </div>
           <p class="text-gray-600 dark:text-gray-300 mb-8 italic relative z-10 leading-relaxed">
             {{ testimonial.text }}
@@ -28,7 +31,7 @@
               {{ testimonial.author.charAt(0) }}
             </div>
             <div>
-              <h4 class="font-bold text-reflex-dark dark:text-white">{{ testimonial.author }}</h4>
+              <p class="font-bold text-reflex-dark dark:text-white">{{ testimonial.author }}</p>
               <p class="text-sm text-gray-500 dark:text-gray-400">{{ testimonial.location }}</p>
             </div>
           </div>
@@ -40,6 +43,7 @@
       <a
         href="https://www.google.com/search?sa=X&sca_esv=2d910e10f9e5456a&sxsrf=AE3TifNjCVRFeqKsp9pkbyRggCXwI6Avzg:1763898446063&q=Wasry+REFLEX+DEMENAGEMENT+Avis&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxK2MDIzMzQwNjazMDAysTQxMDcw2sDI-IpRLjyxuKhSIcjVzcc1QsHF1dfVz9EdRIYoOJZlFi9iJaAAAFKUz4lcAAAA&rldimm=8266103368024940702&tbm=lcl&hl=fr-FR&ved=2ahUKEwiDmrDimYiRAxU6K_sDHQnCLRMQ9fQKegQIRBAF&biw=2048&bih=983&dpr=1.25#lkt=LocalPoiReviews"
         target="_blank"
+        rel="noopener noreferrer"
         class="inline-flex items-center gap-2 text-reflex-dark dark:text-white font-medium hover:text-reflex-orange dark:hover:text-reflex-orange transition-colors"
       >
         <app-icon name="google" class="text-reflex-orange" />
