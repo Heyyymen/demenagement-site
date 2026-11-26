@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { SectionNavService } from '../../services/section-nav.service';
 
 @Component({
   selector: 'app-hero',
@@ -7,10 +8,9 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroComponent {
-  scrollToContact() {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  private readonly sectionNav = inject(SectionNavService);
+
+  scrollToContact(): void {
+    this.sectionNav.goTo('contact');
   }
 }

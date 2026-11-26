@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ThemeService } from '../../services/theme.service';
+import { SectionNavService } from '../../services/section-nav.service';
 
 @Component({
   selector: 'app-header',
@@ -9,6 +10,7 @@ import { ThemeService } from '../../services/theme.service';
 })
 export class HeaderComponent {
   private readonly themeService = inject(ThemeService);
+  private readonly sectionNav = inject(SectionNavService);
   readonly isMenuOpen = signal(false);
   readonly isDarkMode = this.themeService.isDarkMode;
 
@@ -21,8 +23,7 @@ export class HeaderComponent {
   }
 
   scrollToSection(sectionId: string, event: Event): void {
-    event.preventDefault();
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    this.sectionNav.goTo(sectionId, event);
     this.isMenuOpen.set(false);
   }
 }
