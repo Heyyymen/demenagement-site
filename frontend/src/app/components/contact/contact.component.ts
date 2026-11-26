@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors }
 import { DevisService, DevisRequest, DevisResponse } from '../../services/devis.service';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+    selector: 'app-contact',
+    templateUrl: './contact.component.html',
+    styleUrls: ['./contact.component.scss'],
+    standalone: false
 })
 export class ContactComponent implements OnInit {
   contactForm!: FormGroup;
