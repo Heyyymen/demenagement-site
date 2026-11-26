@@ -12,12 +12,11 @@ interface Testimonial {
 @Component({
   selector: 'app-testimonials',
   templateUrl: './testimonials.component.html',
-  styleUrls: ['./testimonials.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [IconComponent],
 })
 export class TestimonialsComponent {
-  testimonials: Testimonial[] = [
+  readonly testimonials: readonly Testimonial[] = [
     {
       author: 'Karine Mazloumian',
       location: 'Paris',
@@ -75,8 +74,4 @@ export class TestimonialsComponent {
       service: 'Déménagement résidentiel',
     },
   ];
-
-  getStarArray(rating: number): number[] {
-    return Array(rating).fill(0);
-  }
 }

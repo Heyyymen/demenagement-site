@@ -60,7 +60,6 @@ const ERROR_MESSAGES: Record<string, Record<string, string>> = {
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [IconComponent, ReactiveFormsModule, RouterLink],
 })
