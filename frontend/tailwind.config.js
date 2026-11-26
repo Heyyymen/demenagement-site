@@ -8,6 +8,7 @@ module.exports = {
         'reflex-dark': '#0f172a', // Slate 900 - Premium Dark
         'reflex-dark-card': '#1e293b', // Slate 800 - Card Background
         'reflex-orange': '#E65100',
+        'reflex-orange-text': '#C2410C', // orange foncé pour le texte sur fond clair (contraste AA)
         'reflex-cream': '#F5F5F0',
       },
       fontFamily: {

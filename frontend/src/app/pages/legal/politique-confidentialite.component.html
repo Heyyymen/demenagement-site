@@ -1,0 +1,89 @@
+<article class="legal">
+  <h1>Politique de confidentialité</h1>
+  <p class="updated">Dernière mise à jour : novembre 2026</p>
+
+  <p>
+    Cette politique explique comment {{ company.brand }} traite les données personnelles collectées sur le site
+    reflexdemenagement.fr, conformément au Règlement général sur la protection des données (RGPD) et à la loi «
+    Informatique et Libertés ».
+  </p>
+
+  <h2>Responsable du traitement</h2>
+  <p>
+    <app-legal-value [value]="company.legalName" /> ({{ company.brand }}),
+    <app-legal-value [value]="company.address" />. Contact :
+    <a [href]="'mailto:' + company.email">{{ company.email }}</a> — {{ company.phone.display }}.
+  </p>
+
+  <h2>Données collectées</h2>
+  <p>Via le formulaire de demande de devis, nous collectons :</p>
+  <ul>
+    <li>vos prénom, nom, adresse email et numéro de téléphone ;</li>
+    <li>le type de prestation, la date souhaitée, les adresses de départ et d'arrivée ;</li>
+    <li>le contenu de votre message.</li>
+  </ul>
+  <p>Aucune donnée n'est collectée à votre insu. Le site n'utilise ni publicité ciblée ni outil de pistage.</p>
+
+  <h2>Finalités et base légale</h2>
+  <p>
+    Ces données servent uniquement à étudier votre demande, à établir votre devis et à vous recontacter à ce sujet. Le
+    traitement repose sur l'exécution de mesures précontractuelles prises à votre demande (article 6.1.b du RGPD) et sur
+    votre accord exprimé lors de l'envoi du formulaire.
+  </p>
+
+  <h2>Destinataires</h2>
+  <p>
+    Vos données sont destinées exclusivement à l'équipe {{ company.brand }}. Elles ne sont ni vendues ni cédées. Pour
+    fonctionner, le site fait appel aux prestataires techniques suivants, qui n'agissent que sur nos instructions :
+  </p>
+  <ul>
+    <li><strong>Netlify, Inc.</strong> (États-Unis) — hébergement du site et traitement du formulaire ;</li>
+    <li>
+      <strong>Resend</strong> (États-Unis) — acheminement des emails de demande de devis et d'accusé de réception ;
+    </li>
+    <li><strong>Google</strong> (Gmail) — réception et gestion de nos emails.</li>
+  </ul>
+  <p>
+    Ces prestataires pouvant traiter des données hors de l'Union européenne, les transferts sont encadrés par les
+    garanties prévues par le RGPD (Data Privacy Framework UE–États-Unis et/ou clauses contractuelles types de la
+    Commission européenne).
+  </p>
+
+  <h2>Durée de conservation</h2>
+  <p>
+    Les données d'une demande de devis sont conservées <strong>3 ans</strong> à compter de notre dernier échange, puis
+    supprimées. Si la demande aboutit à un contrat, les données nécessaires sont conservées pendant la durée légale
+    applicable aux documents commerciaux et comptables.
+  </p>
+
+  <h2>Vos droits</h2>
+  <p>
+    Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition et de portabilité de
+    vos données, ainsi que du droit de définir des directives relatives à leur sort après votre décès. Pour les exercer,
+    écrivez-nous à <a [href]="'mailto:' + company.email">{{ company.email }}</a>. Nous répondons dans un délai d'un
+    mois.
+  </p>
+  <p>
+    Si vous estimez que vos droits ne sont pas respectés, vous pouvez adresser une réclamation à la CNIL (<a
+      href="https://www.cnil.fr"
+      target="_blank"
+      rel="noopener noreferrer"
+      >www.cnil.fr</a
+    >).
+  </p>
+
+  <h2>Cookies et stockage local</h2>
+  <p>
+    Le site ne dépose aucun cookie publicitaire ni de mesure d'audience. Il enregistre uniquement dans votre navigateur
+    votre préférence d'affichage (thème clair ou sombre). Cette information, strictement nécessaire au service que vous
+    avez demandé, ne nécessite pas de consentement et ne quitte jamais votre appareil.
+  </p>
+
+  <h2>Sécurité</h2>
+  <p>
+    Les échanges avec le site sont chiffrés (HTTPS). Le formulaire est protégé contre les envois automatisés et les
+    données ne sont pas conservées sur le serveur web : elles sont transmises directement par email.
+  </p>
+
+  <p class="mt-10">Voir aussi nos <a routerLink="/mentions-legales">mentions légales</a>.</p>
+</article>

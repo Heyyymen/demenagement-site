@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -60,7 +61,7 @@ const ERROR_MESSAGES: Record<string, Record<string, string>> = {
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
 })
 export class ContactComponent {
   private readonly fb = inject(NonNullableFormBuilder);
