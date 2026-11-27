@@ -4,8 +4,8 @@ import type { IconName } from '../components/icon/icon.component';
  * Informations légales et de contact de l'entreprise — source unique.
  * Utilisées par les mentions légales, la politique de confidentialité, le footer et les données structurées.
  *
- * ⚠️ Les champs à `null` DOIVENT être complétés avant la mise en production
- * (ils s'affichent en « [À compléter] » sur les pages légales).
+ * Champs à `null` : identité (raison sociale…) → « [À compléter] » ; registre des transporteurs,
+ * assurance et médiateur → rubrique masquée. Le médiateur est obligatoire (art. L.612-1 C. conso).
  */
 export interface CompanyInfo {
   brand: string;
@@ -38,7 +38,7 @@ export const COMPANY: CompanyInfo = {
   rcs: 'RCS Bobigny 830 680 450', // greffe de Seine-Saint-Denis — à confirmer sur le Kbis
   vat: 'FR06 830 680 450',
   transportRegistry: null, // n° d'inscription au registre des transporteurs (DREAL)
-  publicationDirector: null, // nom du gérant / président
+  publicationDirector: 'Saïd Si Saber, président',
   insurance: null, // assureur RC professionnelle + zone couverte
   mediator: null, // médiateur de la consommation : { name, website }
   phone: { display: '01 70 24 08 60', href: 'tel:+33170240860' },

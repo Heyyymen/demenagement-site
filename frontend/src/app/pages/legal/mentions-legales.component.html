@@ -26,8 +26,10 @@
     <dd><app-legal-value [value]="company.rcs" /></dd>
     <dt>N° TVA intracommunautaire</dt>
     <dd><app-legal-value [value]="company.vat" /></dd>
-    <dt>Registre des transporteurs</dt>
-    <dd><app-legal-value [value]="company.transportRegistry" /></dd>
+    @if (company.transportRegistry) {
+      <dt>Registre des transporteurs</dt>
+      <dd>{{ company.transportRegistry }}</dd>
+    }
     <dt>Téléphone</dt>
     <dd>
       <a [href]="company.phone.href">{{ company.phone.display }}</a>
@@ -46,19 +48,19 @@
     États-Unis — <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">www.netlify.com</a>.
   </p>
 
-  <h2>Assurance professionnelle</h2>
-  <p><app-legal-value [value]="company.insurance" /></p>
+  @if (company.insurance) {
+    <h2>Assurance professionnelle</h2>
+    <p>{{ company.insurance }}</p>
+  }
 
-  <h2>Médiation de la consommation</h2>
-  <p>
-    Conformément aux articles L.611-1 et suivants du Code de la consommation, en cas de litige non résolu avec notre
-    service client, le consommateur peut recourir gratuitement au médiateur de la consommation suivant :
-    @if (company.mediator; as mediator) {
+  @if (company.mediator; as mediator) {
+    <h2>Médiation de la consommation</h2>
+    <p>
+      Conformément aux articles L.611-1 et suivants du Code de la consommation, en cas de litige non résolu avec notre
+      service client, le consommateur peut recourir gratuitement au médiateur de la consommation suivant :
       <a [href]="mediator.website" target="_blank" rel="noopener noreferrer">{{ mediator.name }}</a>.
-    } @else {
-      <app-legal-value [value]="null" />
-    }
-  </p>
+    </p>
+  }
 
   <h2>Propriété intellectuelle</h2>
   <p>
