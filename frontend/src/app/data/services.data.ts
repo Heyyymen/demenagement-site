@@ -43,6 +43,14 @@ export const SERVICES: readonly ServiceItem[] = [
     features: ['Stockage climatisé', 'Accès flexible', 'Inventaire détaillé'],
   },
   {
+    id: 'monte-meuble',
+    icon: 'elevator',
+    title: 'Location de Monte-Meuble',
+    description:
+      "Montée et descente de vos meubles par la fenêtre ou le balcon, quand l'escalier ou l'ascenseur ne suffit pas.",
+    features: ['Passage par fenêtre ou balcon', 'Meubles lourds et volumineux', 'Gain de temps et sécurité'],
+  },
+  {
     id: 'complementaires',
     icon: 'hands-helping',
     title: 'Services Complémentaires',

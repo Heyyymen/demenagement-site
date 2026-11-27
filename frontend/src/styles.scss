@@ -76,6 +76,21 @@ summary:focus-visible,
   animation-delay: 4s;
 }
 
+/* Grille des services : une carte seule sur la dernière ligne est centrée (2 ou 3 colonnes) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .services-grid > :last-child:nth-child(odd) {
+    grid-column: span 2;
+    justify-self: center;
+    width: calc(50% - 1rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .services-grid > :last-child:nth-child(3n + 1) {
+    grid-column-start: 2;
+  }
+}
+
 /* Respect de la préférence « réduire les animations » (WCAG 2.3.3) */
 @media (prefers-reduced-motion: reduce) {
   html {
