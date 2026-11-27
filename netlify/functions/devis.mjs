@@ -46,17 +46,19 @@ const escapeHtml = (value) =>
 
 const str = (value) => (typeof value === 'string' ? value.trim() : '');
 
-function isAllowedOrigin(origin) {
+/**
+ * Accepte les requêtes du site lui-même : même origine que la fonction (production, Deploy Previews,
+ * `netlify dev`) ou domaines de production. Les variables URL / DEPLOY_PRIME_URL de Netlify n'existent
+ * qu'au build, pas à l'exécution des fonctions : on compare donc à l'origine de la requête.
+ */
+function isAllowedOrigin(origin, requestUrl) {
   if (!origin) return true; // requêtes sans Origin (ex. curl) : filtrées par la validation et l'anti-spam
-  const allowed = [
-    'https://reflexdemenagement.fr',
-    'https://www.reflexdemenagement.fr',
-    process.env.URL,
-    process.env.DEPLOY_PRIME_URL,
-    process.env.DEPLOY_URL,
-  ].filter(Boolean);
-  if (allowed.includes(origin)) return true;
-  return process.env.NETLIFY_DEV === 'true' && /^http:\/\/localhost(:\d+)?$/.test(origin);
+  if (['https://reflexdemenagement.fr', 'https://www.reflexdemenagement.fr'].includes(origin)) return true;
+  try {
+    return origin === new URL(requestUrl).origin;
+  } catch {
+    return false;
+  }
 }
 
 function isRateLimited(ip) {
@@ -180,7 +182,8 @@ async function sendEmail({ to, replyTo, subject, text, html }) {
 
 export default async (req, context) => {
   if (req.method !== 'POST') return json(405, { success: false, message: 'Méthode non autorisée' });
-  if (!isAllowedOrigin(req.headers.get('origin'))) return json(403, { success: false, message: 'Origine refusée' });
+  if (!isAllowedOrigin(req.headers.get('origin'), req.url))
+    return json(403, { success: false, message: 'Origine refusée' });
 
   const raw = await req.text();
   if (raw.length > MAX_BODY_BYTES) return json(413, { success: false, message: 'Requête trop volumineuse' });
