@@ -1,48 +1,92 @@
 <header class="header">
   <div class="container">
-    <div class="nav-brand flex items-center cursor-pointer" (click)="scrollToSection('hero', $event)">
-      <img src="assets/logo.webp" alt="REFLEX DÉMÉNAGEMENT"
-        class="logo h-20 w-auto object-contain transition-transform hover:scale-105 dark:invert dark:grayscale dark:mix-blend-screen">
-    </div>
+    <a href="/#hero" class="nav-brand flex items-center" (click)="scrollToSection('hero', $event)">
+      <img
+        src="assets/images/logo-480.webp"
+        width="480"
+        height="181"
+        fetchpriority="high"
+        alt="REFLEX DÉMÉNAGEMENT"
+        class="logo h-20 w-auto object-contain transition-transform hover:scale-105 dark:invert dark:grayscale dark:mix-blend-screen"
+      />
+    </a>
 
-    <nav class="nav-menu" [class.active]="isMenuOpen">
+    <nav id="main-nav" class="nav-menu" aria-label="Navigation principale" [class.active]="isMenuOpen()">
       <ul class="flex gap-8">
-        <li><a href="#hero" (click)="scrollToSection('hero', $event)"
-            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Accueil</a>
+        <li>
+          <a
+            href="/#hero"
+            (click)="scrollToSection('hero', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Accueil</a
+          >
         </li>
-        <li><a href="#services" (click)="scrollToSection('services', $event)"
-            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Services</a>
+        <li>
+          <a
+            href="/#services"
+            (click)="scrollToSection('services', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Services</a
+          >
         </li>
-        <li><a href="#apropos" (click)="scrollToSection('about', $event)"
-            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">À
-            propos</a></li>
-        <li><a href="#temoignages" (click)="scrollToSection('testimonials', $event)"
-            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Témoignages</a>
+        <li>
+          <a
+            href="/#about"
+            (click)="scrollToSection('about', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >À propos</a
+          >
         </li>
-        <li><a href="#contact" (click)="scrollToSection('contact', $event)"
-            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium">Contact</a>
+        <li>
+          <a
+            href="/#testimonials"
+            (click)="scrollToSection('testimonials', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Témoignages</a
+          >
+        </li>
+        <li>
+          <a
+            href="/#contact"
+            (click)="scrollToSection('contact', $event)"
+            class="!text-gray-700 dark:!text-white hover:!text-reflex-orange dark:hover:!text-reflex-orange transition-colors font-medium"
+            >Contact</a
+          >
         </li>
       </ul>
     </nav>
 
     <div class="flex items-center gap-4">
-      <button (click)="toggleTheme()"
+      <button
+        type="button"
+        (click)="toggleTheme()"
         class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-        aria-label="Toggle Dark Mode">
-        <i class="fas fa-moon text-gray-600 dark:text-yellow-400" *ngIf="!(isDarkMode$ | async)"></i>
-        <i class="fas fa-sun text-yellow-500" *ngIf="(isDarkMode$ | async)"></i>
+        [attr.aria-label]="isDarkMode() ? 'Activer le mode clair' : 'Activer le mode sombre'"
+        [attr.aria-pressed]="isDarkMode()"
+      >
+        @if (isDarkMode()) {
+          <app-icon name="sun" class="text-yellow-500" />
+        } @else {
+          <app-icon name="moon" class="text-gray-600 dark:text-yellow-400" />
+        }
       </button>
 
       <div class="nav-contact flex items-center gap-4 hidden md:flex">
-        <a href="tel:+33170240860" class="phone-btn">
-          <i class="fas fa-phone"></i> 01 70 24 08 60
-        </a>
+        <a href="tel:+33170240860" class="phone-btn"> <app-icon name="phone" /> 01 70 24 08 60 </a>
       </div>
 
-      <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen">
-        <span></span>
-        <span></span>
-        <span></span>
+      <button
+        type="button"
+        class="menu-toggle"
+        (click)="toggleMenu()"
+        [class.active]="isMenuOpen()"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-controls="main-nav"
+        [attr.aria-label]="isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
       </button>
     </div>
   </div>

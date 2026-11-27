@@ -1,55 +1,43 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        cache-dependency-path: frontend/package-lock.json
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
 
-    - name: Install Dependencies
-      working-directory: ./frontend
-      run: npm ci
+      - name: Install
+        run: npm ci
 
-    - name: Lint
-      working-directory: ./frontend
-      run: npm run lint
-      continue-on-error: true # Don't fail build on lint errors for now
+      - name: Lint
+        run: npm run lint
 
-    - name: Build Angular App
-      working-directory: ./frontend
-      run: npm run build -- --configuration=production
+      - name: Format
+        run: npm run format:check
 
-  docker-build:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push' # Only build docker image on push, not PR
+      - name: Audit (high+)
+        run: npm audit --audit-level=high
 
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Build (production)
+        run: npm run build
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-
-    - name: Build Docker Image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./frontend
-        file: ./frontend/Dockerfile
-        push: false # Set to true if you have configured Docker Hub credentials
-        tags: reflex-demenagement:latest
+      - name: Lighthouse CI
+        run: npx --yes @lhci/cli@0.15 autorun

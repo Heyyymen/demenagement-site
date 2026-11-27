@@ -1,97 +1,108 @@
 <footer class="bg-reflex-dark dark:bg-reflex-dark text-white pt-20 pb-10 transition-colors duration-300">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-
-      <!-- Brand Column -->
+      <!-- Marque -->
       <div class="footer-brand">
         <div class="flex items-center gap-3 mb-6">
-          <img src="assets/logo.webp" alt="REFLEX DÉMÉNAGEMENT"
-            class="h-12 w-auto dark:invert dark:grayscale dark:mix-blend-screen">
+          <img
+            src="assets/images/logo-480.webp"
+            width="480"
+            height="181"
+            alt="REFLEX DÉMÉNAGEMENT"
+            class="h-12 w-auto dark:invert dark:grayscale dark:mix-blend-screen"
+            loading="lazy"
+          />
         </div>
         <p class="text-gray-400 mb-6 leading-relaxed">
           Votre partenaire de confiance pour tous vos déménagements en Île-de-France, dans toute la France et
-          occasionnellement vers l'étranger.
-          Qualité, sécurité et sérénité garanties.
+          occasionnellement vers l'étranger. Qualité, sécurité et sérénité garanties.
         </p>
-        <div class="social-links flex gap-4">
-          <a href="#"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://www.tiktok.com/@wasry.reflex.dmna?_r=1&_t=ZN-91dtky4pA3C" target="_blank"
-            rel="noopener noreferrer"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
-            <i class="fab fa-tiktok"></i>
-          </a>
-          <a href="#"
-            class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-        </div>
-      </div>
-
-      <!-- Links Column -->
-      <div>
-        <h4 class="text-lg font-bold mb-6">Navigation</h4>
-        <ul class="space-y-3">
-          <li><a href="#hero" class="text-gray-400 hover:text-reflex-orange transition-colors">Accueil</a></li>
-          <li><a href="#services" class="text-gray-400 hover:text-reflex-orange transition-colors">Nos Services</a></li>
-          <li><a href="#about" class="text-gray-400 hover:text-reflex-orange transition-colors">À Propos</a></li>
-          <li><a href="#testimonials" class="text-gray-400 hover:text-reflex-orange transition-colors">Témoignages</a>
-          </li>
-          <li><a href="#contact" class="text-gray-400 hover:text-reflex-orange transition-colors">Contact</a></li>
+        <ul class="flex gap-4" aria-label="Réseaux sociaux">
+          @for (social of company.social; track social.url) {
+            <li>
+              <a
+                [href]="social.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                [attr.aria-label]="social.name + ' (nouvel onglet)'"
+                class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-reflex-orange transition-colors"
+              >
+                <app-icon [name]="social.icon" />
+              </a>
+            </li>
+          }
         </ul>
       </div>
 
-      <!-- Services Column -->
-      <div>
-        <h4 class="text-lg font-bold mb-6">Nos Services</h4>
+      <!-- Navigation -->
+      <nav aria-labelledby="footer-nav-title">
+        <h2 id="footer-nav-title" class="text-lg font-bold mb-6">Navigation</h2>
         <ul class="space-y-3">
-          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Déménagement Particulier</a>
-          </li>
-          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Déménagement Entreprise</a>
-          </li>
-          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Garde-Meubles</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Monte-Meubles</a></li>
-          <li><a href="#" class="text-gray-400 hover:text-reflex-orange transition-colors">Emballage & Cartons</a></li>
+          @for (link of navLinks; track link.id) {
+            <li>
+              <a
+                [href]="'/#' + link.id"
+                (click)="goTo(link.id, $event)"
+                class="text-gray-400 hover:text-reflex-orange transition-colors"
+                >{{ link.label }}</a
+              >
+            </li>
+          }
+        </ul>
+      </nav>
+
+      <!-- Services -->
+      <div>
+        <h2 class="text-lg font-bold mb-6">Nos Services</h2>
+        <ul class="space-y-3">
+          @for (service of services; track service.id) {
+            <li>
+              <a
+                href="/#services"
+                (click)="goTo('services', $event)"
+                class="text-gray-400 hover:text-reflex-orange transition-colors"
+                >{{ service.title }}</a
+              >
+            </li>
+          }
         </ul>
       </div>
 
-      <!-- Contact Column -->
+      <!-- Contact -->
       <div>
-        <h4 class="text-lg font-bold mb-6">Contact</h4>
+        <h2 class="text-lg font-bold mb-6">Contact</h2>
         <ul class="space-y-4">
           <li class="flex items-start gap-3">
-            <i class="fas fa-map-marker-alt text-reflex-orange mt-1"></i>
+            <app-icon name="map-marker-alt" class="text-reflex-orange mt-1" />
             <span class="text-gray-400">Paris & Île-de-France</span>
           </li>
           <li class="flex items-start gap-3">
-            <i class="fas fa-phone-alt text-reflex-orange mt-1"></i>
-            <a href="tel:+33170240860" class="text-gray-400 hover:text-white transition-colors">01 70 24 08 60</a>
+            <app-icon name="phone-alt" class="text-reflex-orange mt-1" />
+            <a [href]="company.phone.href" class="text-gray-400 hover:text-white transition-colors">{{
+              company.phone.display
+            }}</a>
           </li>
           <li class="flex items-start gap-3">
-            <i class="fas fa-envelope text-reflex-orange mt-1"></i>
-            <a href="mailto:reflexdemenagement@gmail.com"
-              class="text-gray-400 hover:text-white transition-colors">reflexdemenagement@gmail.com</a>
+            <app-icon name="envelope" class="text-reflex-orange mt-1" />
+            <a [href]="'mailto:' + company.email" class="text-gray-400 hover:text-white transition-colors">{{
+              company.email
+            }}</a>
           </li>
           <li class="flex items-start gap-3">
-            <i class="fas fa-clock text-reflex-orange mt-1"></i>
-            <span class="text-gray-400">Lun - Sam: 8h00 - 20h00</span>
+            <app-icon name="clock" class="text-reflex-orange mt-1" />
+            <span class="text-gray-400">Lun - Sam : 8h00 - 20h00</span>
           </li>
         </ul>
       </div>
     </div>
 
     <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-      <p class="text-gray-500 text-sm">© 2023 Reflex Déménagement. Tous droits réservés.</p>
+      <p class="text-gray-400 text-sm">© {{ currentYear }} Reflex Déménagement. Tous droits réservés.</p>
       <div class="flex gap-6 text-sm">
-        <a href="#" class="text-gray-500 hover:text-white transition-colors">Mentions Légales</a>
-        <a href="#" class="text-gray-500 hover:text-white transition-colors">Politique de Confidentialité</a>
-        <a href="#" class="text-gray-500 hover:text-white transition-colors">CGV</a>
+        <a routerLink="/mentions-legales" class="text-gray-400 hover:text-white transition-colors">Mentions légales</a>
+        <a routerLink="/politique-de-confidentialite" class="text-gray-400 hover:text-white transition-colors"
+          >Politique de confidentialité</a
+        >
       </div>
     </div>
   </div>

@@ -1,12 +1,6 @@
 .header {
   background: #fff;
 
-  &.dark-mode {
-    // We will add this class via host binding or just rely on global dark mode if we use tailwind classes in HTML
-    background: #111827; // gray-900
-  }
-
-  // Better approach: use Tailwind @apply or just standard CSS var
   :host-context(.dark) & {
     background: #111827;
     border-bottom: 1px solid #374151;
@@ -27,10 +21,6 @@
     align-items: center;
     justify-content: space-between;
     height: 100px;
-  }
-
-  .nav-brand {
-    /* Styles handled by Tailwind classes in HTML */
   }
 
   .nav-menu {
@@ -61,7 +51,7 @@
 
   .nav-contact {
     .phone-btn {
-      background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+      background: #0f172a; // reflex-dark
       color: white;
       text-decoration: none;
       padding: 0.75rem 1.5rem;
@@ -73,10 +63,14 @@
       gap: 0.5rem;
       white-space: nowrap;
 
+      :host-context(.dark) & {
+        background: #c2410c; // reflex-orange-text (contraste AA avec le blanc)
+      }
+
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 15px rgba(29, 78, 216, 0.3);
-        background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%);
+        background: #c2410c;
+        box-shadow: 0 8px 15px rgba(230, 81, 0, 0.3);
       }
 
       i {
@@ -125,12 +119,16 @@
 
     .nav-menu {
       position: fixed;
-      top: 80px;
+      top: 100px;
       left: -100%;
       width: 100%;
-      height: calc(100vh - 80px);
+      height: calc(100vh - 100px);
+      height: calc(100dvh - 100px);
+      visibility: hidden; // menu fermé : hors de l'ordre de tabulation
       background: white;
-      transition: 0.3s;
+      transition:
+        left 0.3s,
+        visibility 0.3s;
       padding: 2rem;
 
       :host-context(.dark) & {
@@ -139,6 +137,7 @@
 
       &.active {
         left: 0;
+        visibility: visible;
       }
 
       ul {

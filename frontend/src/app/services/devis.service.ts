@@ -1,67 +1,57 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
+
+/** Endpoint relatif : fonctionne en production comme avec `netlify dev` en local. */
+const DEVIS_ENDPOINT = '/.netlify/functions/devis';
 
 export interface DevisRequest {
+  prenom: string;
   nom: string;
   email: string;
   telephone: string;
   typeService: string;
-  datePrevisionnelle?: string;
+  datePrevisionnelle: string;
   adresseDepart: string;
   adresseArrivee: string;
   message: string;
+  consentement: boolean;
+  /** Champ piège anti-robot : doit rester vide. */
+  website: string;
+  /** Temps de remplissage, en ms (anti-robot). */
+  elapsedMs: number;
 }
 
-export interface ApiResponse {
+export interface DevisResponse {
   success: boolean;
   message: string;
-  data?: {
-    client: {
-      nom: string;
-      email: string;
-      telephone: string;
-    };
-    service: string;
-    mailtoLink: string;
-    gmailWebLink: string;
-    emailPreview?: {
-      to: string;
-      subject: string;
-      bodyPreview: string;
-    };
-  };
 }
 
-@Injectable({
-  providedIn: 'root'
-})
+export interface DevisError {
+  status: number;
+  message: string;
+}
+
+const PHONE_HINT = 'Vous pouvez aussi nous appeler au 01 70 24 08 60.';
+
+@Injectable({ providedIn: 'root' })
 export class DevisService {
-  private readonly apiUrl = this.getApiUrl();
+  private readonly http = inject(HttpClient);
 
-  constructor(private readonly http: HttpClient) {}
-
-  private getApiUrl(): string {
-    // En production sur Netlify, utilise les fonctions serverless
-    if (window.location.hostname !== 'localhost') {
-      return '/.netlify/functions';
-    }
-    // En développement local, utilise le serveur Node.js
-    return 'http://localhost:3000/api';
+  envoyerDevis(devis: DevisRequest): Observable<DevisResponse> {
+    return this.http
+      .post<DevisResponse>(DEVIS_ENDPOINT, devis)
+      .pipe(
+        catchError((error: HttpErrorResponse) =>
+          throwError((): DevisError => ({ status: error.status, message: DevisService.toMessage(error.status) })),
+        ),
+      );
   }
 
-  envoyerDevis(devisData: DevisRequest): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.apiUrl}/devis`, devisData);
-  }
-
-  testerConnexion(): Observable<ApiResponse> {
-    // En production, pas besoin de test de connexion
-    if (window.location.hostname !== 'localhost') {
-      return new Observable(observer => {
-        observer.next({ success: true, message: 'Fonctions Netlify actives' });
-        observer.complete();
-      });
-    }
-    return this.http.get<ApiResponse>(`${this.apiUrl}/test`);
+  private static toMessage(status: number): string {
+    if (status === 0) return `Connexion impossible. Vérifiez votre connexion Internet. ${PHONE_HINT}`;
+    if (status === 422) return 'Certaines informations sont invalides. Vérifiez le formulaire.';
+    if (status === 429) return `Trop de demandes envoyées. Réessayez dans quelques minutes. ${PHONE_HINT}`;
+    return `Une erreur est survenue lors de l'envoi. ${PHONE_HINT}`;
   }
 }

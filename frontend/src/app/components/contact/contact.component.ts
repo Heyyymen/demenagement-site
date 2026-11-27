@@ -1,103 +1,166 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { DevisService, DevisRequest } from '../../services/devis.service';
+import { ChangeDetectionStrategy, Component, ElementRef, effect, inject, signal } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
+import { RouterLink } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  AbstractControl,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { map } from 'rxjs';
+import { MONTE_MEUBLE_ID, SERVICES } from '../../data/services.data';
+import { DevisPrefillService } from '../../services/devis-prefill.service';
+import { DevisError, DevisService } from '../../services/devis.service';
+
+type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
+
+const MESSAGE_MAX = 1000;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PHONE_PATTERN = /^(0\d{9}|\+\d{8,15})$/;
+
+/** Téléphone FR (10 chiffres) ou international (+ et 8 à 15 chiffres) ; espaces, points et tirets tolérés. */
+function phoneValidator(control: AbstractControl<string>): ValidationErrors | null {
+  const cleaned = (control.value ?? '').replace(/[\s.\-()]/g, '');
+  return !cleaned || PHONE_PATTERN.test(cleaned) ? null : { phone: true };
+}
+
+function todayIso(): string {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+const ERROR_MESSAGES: Record<string, Record<string, string>> = {
+  prenom: {
+    required: 'Le prénom est obligatoire',
+    minlength: 'Minimum 2 caractères',
+    maxlength: 'Maximum 50 caractères',
+  },
+  nom: { required: 'Le nom est obligatoire', minlength: 'Minimum 2 caractères', maxlength: 'Maximum 50 caractères' },
+  email: { required: "L'email est obligatoire", pattern: 'Adresse email invalide' },
+  telephone: {
+    required: 'Le téléphone est obligatoire',
+    phone: 'Numéro invalide (ex. 06 12 34 56 78 ou +33 6 12 34 56 78)',
+  },
+  typeService: { required: 'Sélectionnez un type de déménagement' },
+  adresseDepart: {
+    required: "L'adresse est obligatoire",
+    minlength: 'Adresse trop courte',
+    maxlength: 'Adresse trop longue',
+  },
+  adresseArrivee: {
+    required: "L'adresse est obligatoire",
+    minlength: 'Adresse trop courte',
+    maxlength: 'Adresse trop longue',
+  },
+  message: { maxlength: `Maximum ${MESSAGE_MAX} caractères` },
+  consentement: { required: 'Votre accord est nécessaire pour traiter la demande' },
+};
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent, ReactiveFormsModule, RouterLink],
 })
 export class ContactComponent {
-  contactForm: FormGroup;
-  isSubmitted = false;
-  isSubmitting = false;
-  submitMessage = '';
-  submitError = '';
-  gmailLink = '';
-  gmailWebLink = '';
-  showGmailButton = false;
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly devisService = inject(DevisService);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private startedAt = Date.now();
 
-  minDate: string = '';
+  readonly services = SERVICES;
+  readonly messageMax = MESSAGE_MAX;
+  readonly minDate = todayIso();
+  readonly status = signal<SubmitStatus>('idle');
+  readonly errorMessage = signal('');
+  readonly submitted = signal(false);
 
-  constructor(
-    private readonly fb: FormBuilder,
-    private readonly devisService: DevisService
-  ) {
-    this.minDate = new Date().toISOString().split('T')[0];
-    this.contactForm = this.fb.group({
-      firstName: ['', [Validators.required, Validators.minLength(2)]],
-      lastName: ['', [Validators.required, Validators.minLength(2)]],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9\s\-+()]+$/)]],
-      moveType: ['', Validators.required],
-      moveDate: [''],
-      adresseDepart: ['', Validators.required],
-      adresseArrivee: ['', Validators.required],
-      message: ['', [Validators.required, Validators.minLength(10)]]
+  readonly form = this.fb.group({
+    prenom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    nom: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+    email: ['', [Validators.required, Validators.pattern(EMAIL_PATTERN)]],
+    telephone: ['', [Validators.required, phoneValidator]],
+    typeService: ['', Validators.required],
+    datePrevisionnelle: [''],
+    adresseDepart: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+    adresseArrivee: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+    message: ['', Validators.maxLength(MESSAGE_MAX)],
+    consentement: [false, Validators.requiredTrue],
+    website: [''], // champ piège anti-robot
+  });
+
+  /** Location de monte-meuble : une seule adresse (lieu d'intervention), pas d'adresse d'arrivée. */
+  readonly isMonteMeuble = toSignal(
+    this.form.controls.typeService.valueChanges.pipe(map((v) => v === MONTE_MEUBLE_ID)),
+    { initialValue: false },
+  );
+
+  constructor() {
+    const arrivee = this.form.controls.adresseArrivee;
+    effect(() => {
+      if (this.isMonteMeuble()) arrivee.disable();
+      else arrivee.enable();
+    });
+
+    const prefill = inject(DevisPrefillService);
+    effect(() => {
+      const id = prefill.serviceId();
+      if (id) {
+        this.form.controls.typeService.setValue(id);
+        prefill.serviceId.set(null);
+      }
     });
   }
 
-  onSubmit() {
-    if (this.contactForm.valid) {
-      this.isSubmitting = true;
-      const formValue = this.contactForm.value;
+  readonly messageLength = toSignal(this.form.controls.message.valueChanges.pipe(map((v) => v.length)), {
+    initialValue: 0,
+  });
 
-      const subject = `Demande de devis - ${formValue.firstName} ${formValue.lastName}`;
-      const body = `
-Bonjour,
+  showError(name: keyof typeof this.form.controls): boolean {
+    const control = this.form.controls[name];
+    return control.invalid && (control.touched || this.submitted());
+  }
 
-Je souhaite obtenir un devis pour un déménagement. Voici mes informations :
+  errorFor(name: keyof typeof this.form.controls): string {
+    const errors = this.form.controls[name].errors;
+    if (!errors) return '';
+    const key = Object.keys(errors)[0];
+    return ERROR_MESSAGES[name]?.[key] ?? 'Valeur invalide';
+  }
 
-Nom : ${formValue.lastName}
-Prénom : ${formValue.firstName}
-Email : ${formValue.email}
-Téléphone : ${formValue.phone}
+  onSubmit(): void {
+    if (this.status() === 'submitting') return;
+    this.submitted.set(true);
 
-Type de déménagement : ${formValue.moveType}
-Date souhaitée : ${formValue.moveDate}
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.host.nativeElement.querySelector<HTMLElement>('form .ng-invalid:not(form)')?.focus();
+      return;
+    }
 
-Adresse de départ : ${formValue.adresseDepart}
-Adresse d'arrivée : ${formValue.adresseArrivee}
+    const value = this.form.getRawValue();
+    this.status.set('submitting');
+    this.errorMessage.set('');
 
-Message :
-${formValue.message}
-
-Cordialement,
-${formValue.firstName} ${formValue.lastName}
-      `.trim();
-
-      const mailtoLink = `mailto:reflexdemenagement@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-      // Open the mailto link
-      window.location.href = mailtoLink;
-
-      this.isSubmitting = false;
-      this.isSubmitted = true;
-      this.submitMessage = 'Votre client de messagerie a été ouvert avec les informations préremplies.';
-
-      // Optional: still call the service if you want to save data to backend, 
-      // but for now we prioritize the user request to open email.
-    } else {
-      // Marquer tous les champs comme touchés pour afficher les erreurs
-      Object.keys(this.contactForm.controls).forEach(key => {
-        this.contactForm.get(key)?.markAsTouched();
+    this.devisService
+      .envoyerDevis({
+        ...value,
+        telephone: value.telephone.replace(/[\s.\-()]/g, ''),
+        elapsedMs: Date.now() - this.startedAt,
+      })
+      .subscribe({
+        next: () => {
+          this.status.set('success');
+          this.submitted.set(false);
+          this.form.reset();
+          this.startedAt = Date.now();
+        },
+        error: (error: DevisError) => {
+          this.status.set('error');
+          this.errorMessage.set(error.message);
+        },
       });
-    }
-  }
-
-  isFieldInvalid(fieldName: string): boolean {
-    const field = this.contactForm.get(fieldName);
-    return !!(field && field.invalid && field.touched);
-  }
-
-  getFieldError(fieldName: string): string {
-    const field = this.contactForm.get(fieldName);
-    if (field?.errors) {
-      if (field.errors['required']) return 'Ce champ est obligatoire';
-      if (field.errors['email']) return 'Format email invalide';
-      if (field.errors['minlength']) return `Minimum ${field.errors['minlength'].requiredLength} caractères`;
-      if (field.errors['pattern']) return 'Format invalide';
-    }
-    return '';
   }
 }

@@ -1,0 +1,118 @@
+<section
+  id="monte-meuble"
+  aria-labelledby="monte-meuble-title"
+  class="py-20 bg-reflex-dark dark:bg-reflex-dark-card text-white relative overflow-hidden"
+>
+  <div class="absolute -top-24 -right-24 w-96 h-96 bg-reflex-orange/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="container mx-auto px-4 relative">
+    <div class="grid lg:grid-cols-[1fr_auto] gap-12 items-center">
+      <div>
+        <p class="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-orange-400 mb-4">
+          <app-icon name="elevator" />
+          Location de monte-meuble
+        </p>
+        <h2 id="monte-meuble-title" class="font-display text-4xl md:text-5xl font-bold leading-tight mb-6">
+          Un monte-meuble, même sans déménagement
+        </h2>
+        <p class="text-lg text-gray-300 max-w-2xl mb-10 leading-relaxed">
+          Quand l'escalier ou l'ascenseur ne suffit pas, louez notre monte-meuble pour monter ou descendre vos meubles
+          et objets lourds par la fenêtre ou le balcon, rapidement et en préservant vos biens comme les parties
+          communes.
+        </p>
+
+        <ul class="grid md:grid-cols-3 gap-6 mb-10">
+          @for (point of points; track point.title) {
+            <li class="border-l-2 border-reflex-orange pl-4">
+              <p class="font-semibold mb-1">{{ point.title }}</p>
+              <p class="text-sm text-gray-300 leading-relaxed">{{ point.text }}</p>
+            </li>
+          }
+        </ul>
+
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="/#contact"
+            (click)="demanderDevis($event)"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-reflex-orange-text hover:bg-orange-800 text-white rounded-full font-medium transition-colors"
+          >
+            Demander un devis monte-meuble
+            <app-icon name="arrow-right" />
+          </a>
+          <a
+            [href]="phone.href"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/30 hover:border-white rounded-full font-medium transition-colors"
+          >
+            <app-icon name="phone-alt" class="text-orange-400" />
+            {{ phone.display }}
+          </a>
+        </div>
+      </div>
+
+      <!-- Illustration : monte-meuble posé contre une façade -->
+      <svg
+        class="hidden lg:block w-80 h-80"
+        viewBox="0 0 280 280"
+        fill="none"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="140" cy="140" r="138" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.1)" />
+        <!-- façade -->
+        <rect
+          x="150"
+          y="36"
+          width="96"
+          height="214"
+          rx="4"
+          fill="rgba(255,255,255,0.06)"
+          stroke="rgba(255,255,255,0.25)"
+          stroke-width="2"
+        />
+        @for (y of [56, 104, 152, 200]; track y) {
+          <rect
+            [attr.x]="166"
+            [attr.y]="y"
+            width="24"
+            height="30"
+            rx="2"
+            stroke="rgba(255,255,255,0.25)"
+            stroke-width="2"
+          />
+          <rect
+            [attr.x]="206"
+            [attr.y]="y"
+            width="24"
+            height="30"
+            rx="2"
+            stroke="rgba(255,255,255,0.25)"
+            stroke-width="2"
+          />
+        }
+        <rect x="166" y="56" width="24" height="30" rx="2" stroke="#E65100" stroke-width="3" />
+        <!-- camion -->
+        <rect x="20" y="214" width="104" height="30" rx="5" fill="rgba(255,255,255,0.12)" />
+        <circle cx="44" cy="248" r="9" fill="#0f172a" stroke="rgba(255,255,255,0.4)" stroke-width="3" />
+        <circle cx="102" cy="248" r="9" fill="#0f172a" stroke="rgba(255,255,255,0.4)" stroke-width="3" />
+        <!-- échelle -->
+        <path d="M62 214 L170 70 M78 220 L182 82" stroke="#E65100" stroke-width="5" />
+        @for (t of [0.15, 0.3, 0.45, 0.6, 0.75, 0.9]; track t) {
+          <line
+            [attr.x1]="62 + 108 * t"
+            [attr.y1]="214 - 144 * t"
+            [attr.x2]="78 + 104 * t"
+            [attr.y2]="220 - 138 * t"
+            stroke="#E65100"
+            stroke-width="3"
+          />
+        }
+        <!-- plateau + carton -->
+        <rect x="98" y="118" width="40" height="30" rx="3" fill="#E65100" />
+        <path d="M98 128 H138 M118 118 V128" stroke="#0f172a" stroke-width="2" />
+        <!-- flèches montée / descente -->
+        <path d="M70 120 l10 -12 l10 12 M70 140 l10 12 l10 -12" stroke="rgba(255,255,255,0.7)" stroke-width="3" />
+      </svg>
+    </div>
+  </div>
+</section>

@@ -1,28 +1,147 @@
+/* Clash Display 700 — Fontshare (ITF Free Font License), auto-hébergée */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/assets/fonts/clash-display-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #ffffff;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  font-family:
+    'Inter Variable',
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #ffffff;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 
-    &.dark {
-        background-color: #0f172a; // Slate 900
-        color: #f8fafc; // Slate 50
-    }
+  :root.dark & {
+    background-color: #0f172a; // Slate 900
+    color: #f8fafc; // Slate 50
+  }
 }
 
-/* Styles handled by Tailwind CSS */
-
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 section {
-    scroll-margin-top: 100px; // Adjust based on header height
+  scroll-margin-top: 100px; // Adjust based on header height
+}
+
+/* Focus clavier visible (WCAG 2.4.7) — les champs de formulaire ont leur propre anneau orange */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #e65100;
+  outline-offset: 3px;
+}
+
+/* Animations d'entrée en cascade (classes utilisées dans le hero) */
+.animate-fade-in-up {
+  &.delay-100 {
+    animation-delay: 100ms;
+  }
+  &.delay-200 {
+    animation-delay: 200ms;
+  }
+  &.delay-300 {
+    animation-delay: 300ms;
+  }
+  &.delay-500 {
+    animation-delay: 500ms;
+  }
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+/* Grille des services : une carte seule sur la dernière ligne est centrée (2 ou 3 colonnes) */
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  .services-grid > :last-child:nth-child(odd) {
+    grid-column: span 2;
+    justify-self: center;
+    width: calc(50% - 1rem);
+  }
+}
+
+@media (min-width: 1024px) {
+  .services-grid > :last-child:nth-child(3n + 1) {
+    grid-column-start: 2;
+  }
+}
+
+/* Respect de la préférence « réduire les animations » (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Pages légales (mentions, confidentialité) */
+
+.legal {
+  @apply max-w-3xl mx-auto px-4 pt-36 pb-20 text-gray-700 dark:text-gray-300 leading-relaxed;
+
+  h1 {
+    @apply font-display text-4xl font-bold text-reflex-dark dark:text-white mb-2;
+  }
+
+  h2 {
+    @apply text-2xl font-bold text-reflex-dark dark:text-white mt-10 mb-4;
+  }
+
+  p,
+  ul {
+    @apply mb-4;
+  }
+
+  ul {
+    @apply list-disc pl-6 space-y-1;
+  }
+
+  a {
+    @apply text-reflex-orange-text dark:text-reflex-orange underline;
+  }
+
+  dl {
+    @apply grid grid-cols-1 sm:grid-cols-[14rem_1fr] gap-x-4 gap-y-2;
+  }
+
+  dt {
+    @apply font-semibold text-reflex-dark dark:text-white;
+  }
+}
+
+.updated {
+  @apply text-sm text-gray-600 dark:text-gray-400 mb-8;
 }

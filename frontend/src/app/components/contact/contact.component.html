@@ -1,7 +1,6 @@
 <section id="contact" class="contact py-20 bg-reflex-cream/30 dark:bg-reflex-dark transition-colors duration-300">
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-
       <!-- Contact Info -->
       <div class="contact-info">
         <div class="mb-10">
@@ -14,159 +13,348 @@
         <div class="space-y-8 mb-12">
           <div class="flex items-start gap-6 group">
             <div
-              class="w-14 h-14 bg-white dark:bg-reflex-dark-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700">
-              <i class="fas fa-phone-alt text-2xl text-reflex-orange"></i>
+              class="w-14 h-14 bg-white dark:bg-reflex-dark-card rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
+            >
+              <app-icon name="phone-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Téléphone</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Téléphone</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-1">Du lundi au samedi, 8h - 20h</p>
-              <a href="tel:+33170240860"
-                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors">01
-                70 24 08 60</a>
+              <a
+                href="tel:+33170240860"
+                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors"
+                >01 70 24 08 60</a
+              >
             </div>
           </div>
 
           <div class="flex items-start gap-6 group">
             <div
-              class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700">
-              <i class="fas fa-envelope text-2xl text-reflex-orange"></i>
+              class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
+            >
+              <app-icon name="envelope" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Email</h3>
               <p class="text-gray-600 dark:text-gray-400 mb-1">Pour toute demande écrite</p>
-              <a href="mailto:reflexdemenagement@gmail.com"
-                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors">reflexdemenagement@gmail.com</a>
+              <a
+                href="mailto:reflexdemenagement@gmail.com"
+                class="text-xl font-bold text-reflex-dark dark:text-white hover:text-reflex-orange transition-colors"
+                >reflexdemenagement&#64;gmail.com</a
+              >
             </div>
           </div>
 
           <div class="flex items-start gap-6 group">
             <div
-              class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700">
-              <i class="fas fa-map-marker-alt text-2xl text-reflex-orange"></i>
+              class="w-14 h-14 bg-white dark:bg-gray-800 rounded-2xl flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform duration-300 border border-gray-100 dark:border-gray-700"
+            >
+              <app-icon name="map-marker-alt" class="text-2xl text-reflex-orange" />
             </div>
             <div>
-              <h4 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h4>
+              <h3 class="text-lg font-bold text-reflex-dark dark:text-white mb-1">Zone d'intervention</h3>
               <p class="text-gray-600 dark:text-gray-400">Toute l'Île-de-France et déménagements nationaux.</p>
             </div>
           </div>
         </div>
 
         <div
-          class="faq-preview bg-white dark:bg-reflex-dark-card p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-          <h4 class="font-bold text-reflex-dark dark:text-white mb-4 flex items-center gap-2">
-            <i class="fas fa-question-circle text-reflex-orange"></i>
+          class="faq-preview bg-white dark:bg-reflex-dark-card p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700"
+        >
+          <h3 class="font-bold text-reflex-dark dark:text-white mb-4 flex items-center gap-2">
+            <app-icon name="question-circle" class="text-reflex-orange" />
             Question fréquente
-          </h4>
-          <p class="font-medium text-reflex-dark dark:text-white mb-2">Combien de temps à l'avance dois-je réserver ?
+          </h3>
+          <p class="font-medium text-reflex-dark dark:text-white mb-2">
+            Combien de temps à l'avance dois-je réserver ?
           </p>
-          <p class="text-gray-600 dark:text-gray-400 text-sm">L'idéal est de nous contacter 3 à 4 semaines avant la date
-            souhaitée, surtout pour les périodes estivales.</p>
+          <p class="text-gray-600 dark:text-gray-400 text-sm">
+            L'idéal est de nous contacter 3 à 4 semaines avant la date souhaitée, surtout pour les périodes estivales.
+          </p>
         </div>
       </div>
 
-      <!-- Contact Form -->
+      <!-- Formulaire de devis -->
       <div
-        class="contact-form-wrapper bg-white dark:bg-reflex-dark-card p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700">
+        class="contact-form-wrapper bg-white dark:bg-reflex-dark-card p-8 md:p-10 rounded-3xl shadow-xl border border-gray-100 dark:border-gray-700"
+      >
         <h3 class="text-2xl font-bold text-reflex-dark dark:text-white mb-8">Demande de devis gratuit</h3>
 
-        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <div aria-live="polite" aria-atomic="true">
+          @if (status() === 'success') {
+            <div
+              class="mb-6 p-4 bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 rounded-xl"
+            >
+              <p class="text-green-800 dark:text-green-200 font-medium flex items-center gap-2">
+                <app-icon name="check-circle" />
+                Merci ! Votre demande a bien été envoyée. Nous vous recontactons sous 24 h ouvrées.
+              </p>
+            </div>
+          }
+          @if (status() === 'error') {
+            <div class="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-xl">
+              <p class="text-red-800 dark:text-red-200 font-medium">{{ errorMessage() }}</p>
+            </div>
+          }
+          @if (submitted() && form.invalid) {
+            <div class="mb-6 p-3 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 rounded-lg">
+              <p class="text-red-700 dark:text-red-300 text-sm flex items-center gap-2">
+                <app-icon name="exclamation-circle" />
+                Certains champs sont à compléter ou à corriger.
+              </p>
+            </div>
+          }
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6" novalidate>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
-              <label for="firstName"
-                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Prénom</label>
-              <input type="text" id="firstName" formControlName="firstName"
+              <label for="prenom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Prénom <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="text"
+                id="prenom"
+                formControlName="prenom"
+                required
+                autocomplete="given-name"
+                [attr.aria-invalid]="showError('prenom')"
+                [attr.aria-describedby]="showError('prenom') ? 'error-prenom' : null"
+                [class.border-red-500]="showError('prenom')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('firstName')">
+              />
+              @if (showError('prenom')) {
+                <p id="error-prenom" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('prenom') }}</p>
+              }
             </div>
             <div class="form-group">
-              <label for="lastName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Nom</label>
-              <input type="text" id="lastName" formControlName="lastName"
+              <label for="nom" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Nom <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="text"
+                id="nom"
+                formControlName="nom"
+                required
+                autocomplete="family-name"
+                [attr.aria-invalid]="showError('nom')"
+                [attr.aria-describedby]="showError('nom') ? 'error-nom' : null"
+                [class.border-red-500]="showError('nom')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('lastName')">
+              />
+              @if (showError('nom')) {
+                <p id="error-nom" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('nom') }}</p>
+              }
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
-              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Email</label>
-              <input type="email" id="email" formControlName="email"
+              <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Email <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                required
+                autocomplete="email"
+                [attr.aria-invalid]="showError('email')"
+                [attr.aria-describedby]="showError('email') ? 'error-email' : null"
+                [class.border-red-500]="showError('email')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('email')">
+              />
+              @if (showError('email')) {
+                <p id="error-email" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('email') }}</p>
+              }
             </div>
             <div class="form-group">
-              <label for="phone"
-                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Téléphone</label>
-              <input type="tel" id="phone" formControlName="phone"
+              <label for="telephone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Téléphone <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="tel"
+                id="telephone"
+                formControlName="telephone"
+                required
+                autocomplete="tel"
+                placeholder="06 12 34 56 78"
+                [attr.aria-invalid]="showError('telephone')"
+                [attr.aria-describedby]="showError('telephone') ? 'error-telephone' : null"
+                [class.border-red-500]="showError('telephone')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('phone')">
+              />
+              @if (showError('telephone')) {
+                <p id="error-telephone" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('telephone') }}
+                </p>
+              }
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
-              <label for="moveDate" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Date
-                souhaitée</label>
-              <input type="date" id="moveDate" formControlName="moveDate" [min]="minDate"
-                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none">
+              <label for="datePrevisionnelle" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Date souhaitée</label
+              >
+              <input
+                type="date"
+                id="datePrevisionnelle"
+                formControlName="datePrevisionnelle"
+                [min]="minDate"
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
+              />
             </div>
             <div class="form-group">
-              <label for="moveType" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Type de
-                déménagement</label>
-              <select id="moveType" formControlName="moveType"
-                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none appearance-none">
-                <option value="" disabled selected>Sélectionnez une option</option>
-                <option value="studio">Studio / T1</option>
-                <option value="t2">Appartement T2</option>
-                <option value="t3">Appartement T3</option>
-                <option value="t4plus">Appartement T4+</option>
-                <option value="maison">Maison</option>
-                <option value="bureaux">Bureaux / Entreprise</option>
+              <label for="typeService" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >Type de déménagement <span aria-hidden="true">*</span></label
+              >
+              <select
+                id="typeService"
+                formControlName="typeService"
+                required
+                [attr.aria-invalid]="showError('typeService')"
+                [attr.aria-describedby]="showError('typeService') ? 'error-typeService' : null"
+                [class.border-red-500]="showError('typeService')"
+                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none appearance-none"
+              >
+                <option value="" disabled>Sélectionnez une option</option>
+                @for (service of services; track service.id) {
+                  <option [value]="service.id">{{ service.title }}</option>
+                }
               </select>
+              @if (showError('typeService')) {
+                <p id="error-typeService" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('typeService') }}
+                </p>
+              }
             </div>
           </div>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="form-group">
-              <label for="adresseDepart" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Adresse
-                de départ *</label>
-              <input type="text" id="adresseDepart" formControlName="adresseDepart"
+              <label for="adresseDepart" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                >{{ isMonteMeuble() ? "Adresse d'intervention" : 'Adresse de départ' }}
+                <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="text"
+                id="adresseDepart"
+                formControlName="adresseDepart"
+                required
+                autocomplete="section-depart street-address"
+                placeholder="N°, rue, code postal, ville"
+                [attr.aria-invalid]="showError('adresseDepart')"
+                [attr.aria-describedby]="showError('adresseDepart') ? 'error-adresseDepart' : null"
+                [class.border-red-500]="showError('adresseDepart')"
                 class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('adresseDepart')" placeholder="Adresse complète de départ">
-              <span class="error-message text-red-500 text-xs mt-1" *ngIf="isFieldInvalid('adresseDepart')">
-                {{ getFieldError('adresseDepart') }}
-              </span>
+              />
+              @if (showError('adresseDepart')) {
+                <p id="error-adresseDepart" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                  {{ errorFor('adresseDepart') }}
+                </p>
+              }
             </div>
-
-            <div class="form-group">
-              <label for="adresseArrivee"
-                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Adresse d'arrivée *</label>
-              <input type="text" id="adresseArrivee" formControlName="adresseArrivee"
-                class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
-                [class.border-red-500]="isFieldInvalid('adresseArrivee')" placeholder="Adresse complète d'arrivée">
-              <span class="error-message text-red-500 text-xs mt-1" *ngIf="isFieldInvalid('adresseArrivee')">
-                {{ getFieldError('adresseArrivee') }}
-              </span>
-            </div>
+            @if (!isMonteMeuble()) {
+              <div class="form-group">
+                <label for="adresseArrivee" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  >Adresse d'arrivée <span aria-hidden="true">*</span></label
+                >
+                <input
+                  type="text"
+                  id="adresseArrivee"
+                  formControlName="adresseArrivee"
+                  required
+                  autocomplete="section-arrivee street-address"
+                  placeholder="N°, rue, code postal, ville"
+                  [attr.aria-invalid]="showError('adresseArrivee')"
+                  [attr.aria-describedby]="showError('adresseArrivee') ? 'error-adresseArrivee' : null"
+                  [class.border-red-500]="showError('adresseArrivee')"
+                  class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none"
+                />
+                @if (showError('adresseArrivee')) {
+                  <p id="error-adresseArrivee" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                    {{ errorFor('adresseArrivee') }}
+                  </p>
+                }
+              </div>
+            }
           </div>
 
           <div class="form-group">
-            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Message
-              (optionnel)</label>
-            <textarea id="message" formControlName="message" rows="4"
+            <div class="flex justify-between items-center mb-2">
+              <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Message (optionnel)</label
+              >
+              <span class="text-xs text-gray-600 dark:text-gray-400" aria-hidden="true"
+                >{{ messageLength() }}/{{ messageMax }}</span
+              >
+            </div>
+            <textarea
+              id="message"
+              formControlName="message"
+              rows="4"
+              [attr.maxlength]="messageMax"
+              [attr.aria-invalid]="showError('message')"
+              [attr.aria-describedby]="showError('message') ? 'error-message' : null"
+              [class.border-red-500]="showError('message')"
               class="w-full px-4 py-3 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-white focus:ring-2 focus:ring-reflex-orange focus:border-transparent transition-all outline-none resize-none"
-              placeholder="Précisez votre demande (étage, ascenseur, volume estimé...)"></textarea>
+              placeholder="Précisez votre demande (étage, ascenseur, volume estimé...)"
+            ></textarea>
+            @if (showError('message')) {
+              <p id="error-message" class="text-red-600 dark:text-red-400 text-xs mt-1">{{ errorFor('message') }}</p>
+            }
           </div>
 
-          <button type="submit" [disabled]="contactForm.invalid || isSubmitting"
-            class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2">
-            <span *ngIf="!isSubmitting">Envoyer ma demande</span>
-            <span *ngIf="isSubmitting"><i class="fas fa-spinner fa-spin"></i> Envoi en cours...</span>
-          </button>
+          <!-- Champ piège anti-robot : invisible pour les humains -->
+          <div class="absolute -left-[9999px] w-px h-px overflow-hidden" aria-hidden="true">
+            <label for="website">Ne pas remplir ce champ</label>
+            <input type="text" id="website" formControlName="website" tabindex="-1" autocomplete="off" />
+          </div>
 
-          <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
-            En envoyant ce formulaire, vous acceptez notre politique de confidentialité. Vos données sont sécurisées.
-          </p>
+          <div class="form-group">
+            <div class="flex items-start gap-3">
+              <input
+                type="checkbox"
+                id="consentement"
+                formControlName="consentement"
+                [attr.aria-invalid]="showError('consentement')"
+                [attr.aria-describedby]="showError('consentement') ? 'error-consentement' : null"
+                class="mt-1 w-5 h-5 rounded accent-reflex-orange cursor-pointer"
+              />
+              <label for="consentement" class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
+                J'accepte que mes informations soient utilisées pour répondre à ma demande de devis.
+                <a
+                  routerLink="/politique-de-confidentialite"
+                  class="text-reflex-orange-text dark:text-orange-400 hover:underline font-medium"
+                  >Lire notre politique de confidentialité</a
+                >
+                <span aria-hidden="true">*</span>
+              </label>
+            </div>
+            @if (showError('consentement')) {
+              <p id="error-consentement" class="text-red-600 dark:text-red-400 text-xs mt-1">
+                {{ errorFor('consentement') }}
+              </p>
+            }
+          </div>
+
+          <button
+            type="submit"
+            [disabled]="status() === 'submitting'"
+            class="w-full py-4 bg-reflex-dark dark:bg-reflex-orange-text text-white rounded-xl font-bold text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 flex items-center justify-center gap-2"
+          >
+            @if (status() === 'submitting') {
+              <app-icon name="spinner" class="animate-spin" /> Envoi en cours...
+            } @else {
+              Envoyer ma demande
+            }
+          </button>
         </form>
+
+        <p class="text-xs text-center text-gray-600 dark:text-gray-400 mt-6">
+          Les champs marqués d'une * sont obligatoires.
+        </p>
       </div>
     </div>
   </div>

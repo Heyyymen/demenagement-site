@@ -1,17 +1,30 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { IconComponent } from '../icon/icon.component';
+import { RouterLink } from '@angular/router';
+import { COMPANY } from '../../data/company.data';
+import { SERVICES } from '../../data/services.data';
+import { SectionNavService } from '../../services/section-nav.service';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [IconComponent, RouterLink],
 })
 export class FooterComponent {
-  currentYear = new Date().getFullYear();
+  private readonly sectionNav = inject(SectionNavService);
+  readonly company = COMPANY;
+  readonly services = SERVICES;
+  readonly currentYear = new Date().getFullYear();
+  readonly navLinks = [
+    { id: 'hero', label: 'Accueil' },
+    { id: 'services', label: 'Nos Services' },
+    { id: 'about', label: 'À Propos' },
+    { id: 'testimonials', label: 'Témoignages' },
+    { id: 'contact', label: 'Contact' },
+  ];
 
-  scrollToSection(sectionId: string) {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  goTo(sectionId: string, event: Event): void {
+    this.sectionNav.goTo(sectionId, event);
   }
 }
