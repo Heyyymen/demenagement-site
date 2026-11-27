@@ -11,6 +11,10 @@ import { SectionNavService } from '../../services/section-nav.service';
 export class HeroComponent {
   private readonly sectionNav = inject(SectionNavService);
 
+  goTo(sectionId: string, event: Event): void {
+    this.sectionNav.goTo(sectionId, event);
+  }
+
   scrollToContact(): void {
     this.sectionNav.goTo('contact');
   }

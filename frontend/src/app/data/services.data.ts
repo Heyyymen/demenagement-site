@@ -13,6 +13,9 @@ export interface ServiceItem {
   features: string[];
 }
 
+/** Service mis en avant (location seule possible) : une seule adresse dans le formulaire. */
+export const MONTE_MEUBLE_ID = 'monte-meuble';
+
 export const SERVICES: readonly ServiceItem[] = [
   {
     id: 'residentiel',
@@ -47,8 +50,12 @@ export const SERVICES: readonly ServiceItem[] = [
     icon: 'elevator',
     title: 'Location de Monte-Meuble',
     description:
-      "Montée et descente de vos meubles par la fenêtre ou le balcon, quand l'escalier ou l'ascenseur ne suffit pas.",
-    features: ['Passage par fenêtre ou balcon', 'Meubles lourds et volumineux', 'Gain de temps et sécurité'],
+      "Montée et descente de vos meubles par la fenêtre ou le balcon, avec ou sans déménagement, quand l'escalier ou l'ascenseur ne suffit pas.",
+    features: [
+      'Location seule, sans déménagement',
+      'Meubles lourds et volumineux',
+      'Autorisation de stationnement gérée',
+    ],
   },
   {
     id: 'complementaires',

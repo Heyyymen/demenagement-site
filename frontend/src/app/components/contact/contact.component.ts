@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, effect, inject, signal } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -10,7 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { map } from 'rxjs';
-import { SERVICES } from '../../data/services.data';
+import { MONTE_MEUBLE_ID, SERVICES } from '../../data/services.data';
+import { DevisPrefillService } from '../../services/devis-prefill.service';
 import { DevisError, DevisService } from '../../services/devis.service';
 
 type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error';
@@ -89,6 +90,29 @@ export class ContactComponent {
     consentement: [false, Validators.requiredTrue],
     website: [''], // champ piège anti-robot
   });
+
+  /** Location de monte-meuble : une seule adresse (lieu d'intervention), pas d'adresse d'arrivée. */
+  readonly isMonteMeuble = toSignal(
+    this.form.controls.typeService.valueChanges.pipe(map((v) => v === MONTE_MEUBLE_ID)),
+    { initialValue: false },
+  );
+
+  constructor() {
+    const arrivee = this.form.controls.adresseArrivee;
+    effect(() => {
+      if (this.isMonteMeuble()) arrivee.disable();
+      else arrivee.enable();
+    });
+
+    const prefill = inject(DevisPrefillService);
+    effect(() => {
+      const id = prefill.serviceId();
+      if (id) {
+        this.form.controls.typeService.setValue(id);
+        prefill.serviceId.set(null);
+      }
+    });
+  }
 
   readonly messageLength = toSignal(this.form.controls.message.valueChanges.pipe(map((v) => v.length)), {
     initialValue: 0,

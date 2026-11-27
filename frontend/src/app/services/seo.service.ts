@@ -5,7 +5,7 @@ import { filter } from 'rxjs';
 
 const SITE_URL = 'https://reflexdemenagement.fr';
 const DEFAULT_DESCRIPTION =
-  "REFLEX DÉMÉNAGEMENT - Votre partenaire de confiance pour déménager en toute sérénité en Île-de-France, en France et à l'international. Devis gratuit et immédiat.";
+  "REFLEX DÉMÉNAGEMENT - Déménagement en Île-de-France, en France et à l'international, et location de monte-meuble avec ou sans déménagement. Devis gratuit et rapide.";
 
 /** Met à jour l'URL canonique et la meta description à chaque navigation (données `description` des routes). */
 @Injectable({ providedIn: 'root' })
